@@ -1,0 +1,44 @@
+
+This is README describes how to use the very simple scripts here to clone
+and build Hyrax using the 17 or so repositories that contain its various
+source code modules. This is a temporary solution that will use the code
+we have migrated from subversion to git while we work on a more long-term
+solution.
+
+Note that the repos on GitHub have all of the branches and tags; after
+a clone, use branch -a to see them. 
+
+The recipe - short version - which leaves out building the third-party
+packages that Hyrax needs to build all of the modules associated with
+a full build:
+
+1 source spath.sh 
+
+2 ./hyrax_clone.sh
+
+3 ./hyrax_build.sh
+
+The longer version:
+
+1. Set up the 'prefix' and 'PATH' environment variables in the shell
+you're using
+ 
+2. Get and build the 'hyrax-dependencies' by either cloning the that
+repo (https://github.com/OPENDAP/hyrax-dependencies) or downloading
+the tarball from www.opendap.org/pub/binary/tmp/.
+
+3. Now clone all of the source repos for Hyrax using the 'hyrax_clone.sh'
+script. This will take a while, but it's not too bad. The script takes
+two options: verbose (-v) and dry_run (-n).
+
+4. Build the code using the 'hyrax_build.sh' script. It takes three
+options: verbose (-v), dry_run (-n) and prefix (-p). You don't need to
+use the prefix option. However, a log of what it did will help sort
+out problems (i.e., ./hyrax_build.sh -v 2&>1 | tee guild.log).
+
+The 'hyrax_clean.sh' will remove all the built stuff so you can run
+hyrax_build.sh from scratch.
+
+
+
+
