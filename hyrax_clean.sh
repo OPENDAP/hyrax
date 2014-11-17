@@ -32,6 +32,9 @@ done
 
 (cd bes && make clean)
 
+# FIXME jhrg 11/17/14
+# (cd olfs && ant clean)
+
 # in a sub-shell
 (
 if cd modules

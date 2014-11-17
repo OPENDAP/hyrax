@@ -43,7 +43,7 @@ function do_command {
     fi
 }
 
-repo_root=https://github.com/OPENDAP
+repo_root=https://github.com/opendap
 
 # These modules do not require dependencies from EPEL or elsewhere on 
 # a supported OS
@@ -53,16 +53,17 @@ wcs_gateway_module xml_data_handler"
 # These modules do require code that is not normally on OSX and CentOS
 # NB: ncml_module uses ICU which is a problem on OSX; we treat it as a
 # third-party dependency.
-modules_epel="cdf_handler fileout_gdal fileout_netcdf fits_handler \
-gdal_handler hdf4_handler hdf5_handler netcdf_handler ugrid_functions \
-ncml_module"
+modules_epel="fileout_gdal fileout_netcdf fits_handler gdal_handler \
+hdf4_handler hdf5_handler netcdf_handler ugrid_functions ncml_module"
 
 # These modules are not currently delivered as part of Hyrax
-# cedar_handler matlab_handler sql_handler wcs_gateway_module 
+# cdf_handler cedar_handler matlab_handler sql_handler wcs_gateway_module 
 
 do_command "git clone $repo_root/libdap.git $verbose"
 
 do_command "git clone $repo_root/bes.git $verbose"
+
+do_command "git clone $repo_root/olfs.git $verbose"
 
 mkdir -p modules
 

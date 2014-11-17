@@ -88,6 +88,8 @@ do_build libdap $prefix_arg --enable-developer
 
 do_build bes $prefix_arg --enable-developer
 
+(cd olfs && ant server)
+
 modules="csv_handler dap-server fileout_json freeform_handler gateway_module \
 ncml_module wcs_gateway_module xml_data_handler"
 
