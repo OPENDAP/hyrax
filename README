@@ -12,6 +12,8 @@ The recipe - short version - which leaves out building the third-party
 packages that Hyrax needs to build all of the modules associated with
 a full build:
 
+0 build the dependencies
+
 1 source spath.sh 
 
 2 ./hyrax_clone.sh
