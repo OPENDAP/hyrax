@@ -51,8 +51,8 @@ function do_command {
     fi
 }
 
-# Two args "do_build <thing> <configure options>"
-function do_build {
+# Two args "do_make_build <thing> <configure options>"
+function do_make_build {
     if test -n "$verbose"
     then
 	echo "Building in $1"
@@ -82,22 +82,50 @@ function do_build {
     )
 }
 
+# Two args "do_build <thing> <configure options>"
+function do_ant_build {
+    if test -n "$verbose"
+    then
+	echo "Building in $1"
+    fi
+
+    # in a sub-shell
+    (
+    if cd $1
+    then
+	# shift first arg off so $* holds the rmaining args
+	shift
+	if test ! -f build.xml
+	then
+	    echo "Could not find build.xml script"
+	    exit 1
+	fi
+
+	do_command "ant server $*"
+
+	if test -d $tomcat_webapps
+	then
+	    do_command "cp build/dist/opendap.war $tomcat_webapps"
+	else
+	    echo "Could not find $tomcat_webapps"
+	fi
+    fi
+    )
+}
+
 prefix_arg=--prefix=$prefix
 
-do_build libdap $prefix_arg --enable-developer
+do_make_build libdap $prefix_arg --enable-developer
 
-do_build bes $prefix_arg --enable-developer
+do_make_build bes $prefix_arg --enable-developer
 
-(cd olfs && ant server)
+tomcat_webapps=$prefix/apache-tomcat-7.0.29/webapps
+do_ant_build olfs
 
 modules="csv_handler dap-server fileout_json freeform_handler gateway_module \
 ncml_module wcs_gateway_module xml_data_handler"
 
 icu_arg=--with-icu-prefix=$prefix/deps
-# --disable-option-checking
-# --enable-developer CXXFLAGS="-g3 -O0 -W -Wall -Wcast-align" LDFLAGS=-g
-# dry_run=""
-
 
 # in a sub-shell
 (
@@ -105,7 +133,7 @@ if cd modules
 then
     for m in $modules
     do
-	do_build $m $prefix_arg --disable-option-checking $icu_arg
+	do_make_build $m $prefix_arg --disable-option-checking $icu_arg
     done
 fi
 ) # 'cd modules sub-shell
@@ -127,7 +155,7 @@ if cd modules
 then
     for m in $modules_epel
     do
-	do_build $m $prefix_arg $ugrid_arg $gdal_arg $fits_arg $icu_arg $hdf5_arg $hdf4_arg $netcdf_arg
+	do_make_build $m $prefix_arg $ugrid_arg $gdal_arg $fits_arg $icu_arg $hdf5_arg $hdf4_arg $netcdf_arg
     done
 fi
 ) # 'cd modules sub-shell
