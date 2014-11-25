@@ -12,9 +12,9 @@ fi
 
 set -- $args
 
-# Set verbose and do_nothing to false
-vernose=""
-realclean=""
+# Set verbose and reallyclean to false
+verbose=""
+reallyclean=""
 for i in $*
 do
     case "$i"

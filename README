@@ -22,18 +22,18 @@ a full build:
 
 The longer version:
 
-1. Set up the 'prefix' and 'PATH' environment variables in the shell
-you're using
- 
-2. Get and build the 'hyrax-dependencies' by either cloning the that
+1. Get and build the 'hyrax-dependencies' by either cloning the that
 repo (https://github.com/OPENDAP/hyrax-dependencies) or downloading
 the tarball from:
 
-    http://www.opendap.org/pub/binary/tmp/hyrax-dependencies-1.9.4.tar
+    http://www.opendap.org/pub/binary/tmp/hyrax-dependencies-1.9.5.tar
 
 Note that since this a collection of tar.gz files, it is not
 compressed itself
 
+2. Set up the 'prefix' and 'PATH' environment variables in the shell
+you're using. 
+ 
 3. Now clone all of the source repos for Hyrax using the 'hyrax_clone.sh'
 script. This will take a while, but it's not too bad. The script takes
 two options: verbose (-v) and dry_run (-n).
