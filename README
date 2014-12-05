@@ -26,8 +26,8 @@ The longer version:
 repo (https://github.com/OPENDAP/hyrax-dependencies) or downloading
 the tarball from:
 
-    http://www.opendap.org/pub/binary/tmp/hyrax-dependencies-1.9.5.tar
-
+    http://www.opendap.org/pub/sources/hyrax-dependencies-1.9.5.tar
+    
 Note that since this a collection of tar.gz files, it is not
 compressed itself
 

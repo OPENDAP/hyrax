@@ -49,16 +49,19 @@ then
     echo "Switching to branch $1"
 fi
 
+echo "libdap: "
 (do_command "cd libdap" && do_command "git checkout $1")
 
+echo "bes: "
 (do_command "cd bes" && do_command "git checkout $1")
 
+echo "olfs: "
 (do_command "cd olfs" && do_command "git checkout $1")
 
 # in a sub-shell
 (
 if cd modules
 then
-    for m in `ls -1`; do (do_command "cd $m" && do_command "git checkout $1"); done
+    for m in `ls -1`; do echo "$m: "; (do_command "cd $m" && do_command "git checkout $1"); done
 fi
 ) # 'cd modules sub-shell
