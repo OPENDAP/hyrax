@@ -1,9 +1,16 @@
 
-This is README describes how to use the very simple scripts here to clone
-and build Hyrax using the 17 or so repositories that contain its various
-source code modules. This is a temporary solution that will use the code
-we have migrated from subversion to git while we work on a more long-term
-solution.
+This is README describes how to use the very simple scripts here to
+clone and build Hyrax using the 17 or so repositories that contain its
+various source code modules. This is a temporary solution that used
+the code we have migrated from subversion to git while work on a more
+long-term solution was in-progres. As of 12/23/14 the 'bes' repo can
+be used to build all of the parts of the BES except libdap. There's a
+short document describing how to do that:
+
+      http://docs.OPeNDAP.org/index.php/Hyrax_GitHub_Source_Build
+
+This still works, and builds the same code, but it's more work if
+you're building the whole (or most of) the Hyrax server.
 
 Note that the repos on GitHub have all of the branches and tags; after
 a clone, use branch -a to see them. 
