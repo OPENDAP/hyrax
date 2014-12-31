@@ -136,7 +136,6 @@ If one of the distcheck targets failed, then the build dir that
 it left behind will not be writable by anyone, so chmod 755 or sudo
 to remove it.
 
-
-
-
-
+When setting up a nightly build you need to add the file login.txt
+to enable logins to the remote build recorder and you will need to
+edit the OS name hardcoded into the nightly_build script.
