@@ -99,14 +99,15 @@ to check:
 with the BES and you can see them using 'besctl pids'. If not, look at
 the BES log file ($prefix/build/var/bes.log) for error messages. 
 
-* Is tomcat runnning? Use 'ps -ef | grep tomcat' to see if it is. If not, look
-in $prefix/bui.d apache-tomcat-*/logs/catalins.out for clues as to why.
+* Is tomcat running? Use 'ps -ef | grep tomcat' to see if it is. If
+not, look in $prefix/bui.d apache-tomcat-*/logs/catalins.out for clues
+as to why.
 
-* Are you working on a machine that has ports like 8080 blocked? Hyrax needs
-an open port for Tomcat, nominally 8080, plus an open port for the BES. 
-By default the BES uses port 10022.
+* Are you working on a machine that has ports like 8080 blocked? Hyrax
+needs an open port for Tomcat, nominally 8080, plus an open port for
+the BES. By default the BES uses port 10022.
 
-For more deatailed inforamtion on Hyrax and its configuration, see:
+For more detailed information on Hyrax and its configuration, see:
 
     http://docs.opendap.org/index.php/Documentation
 
@@ -120,7 +121,21 @@ each of the three repos (libdap, BES and OLFS) and then, optionally,
 uploads the result to our build database.
 
 The hyrax_branch.sh script is a quick hack to change the branch of all
-of the code, including the BES modules. 
+of the code, including the BES modules.
+
+-----------------------------------------------------------------------
+
+Notes:
+
+To clean the repo, returning it to it's initial state, use:
+
+    rm -rf bes build hyrax-dependencies/ libdap logs olfs \
+     bes.log libdap.log olfs.log
+
+If one of the distcheck targets failed, then the build dir that 
+it left behind will not be writable by anyone, so chmod 755 or sudo
+to remove it.
+
 
 
 
