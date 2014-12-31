@@ -1,0 +1,14 @@
+#
+*~
+*.log
+.metadata/
+
+# never check in login.txt
+login.txt
+
+logs/
+hyrax-dependencies/
+bes/
+libdap/
+olfs/
+build/

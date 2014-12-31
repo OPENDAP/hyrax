@@ -94,7 +94,11 @@ for build_name in libdap bes olfs
 do
     verbose "Processing log for $build_name"
 
-    make_log=${host}.${platform}.${build_name}.${date}
+    # The word 'all' in the following name is kept because the scripts
+    # that process these files are old - 2005 vintage - and used to support
+    # logs for different targets. I want the scripts to continue to work
+    # on the old logs. jhrg 12/31/14 
+    make_log=${host}.${platform}.${build_name}.all.${date}
 
     echo "Build of ${build_name} on `date`" > $make_log
     echo "Built on ${host_full}, ${platform} (`uname -a`)" >> $make_log
