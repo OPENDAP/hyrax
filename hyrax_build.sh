@@ -108,7 +108,8 @@ function do_make_build {
 	do_command "make -j9"
 	verbose "%%% make status: $?"
 
-	do_command "make check"
+	# some of the bes/handler tests fail w/parallel builds
+	do_command "make check -k"
 	verbose "%%% check status: $?"
 
 	do_command "make install"

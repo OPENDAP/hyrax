@@ -143,10 +143,11 @@ do
     if test "$record_build" = "yes"
     then
 	verbose "Recording the build"
-	do_command curl --digest --user $USER_PW "http://test.opendap.org/cgi-bin/build_recorder.pl?host=${host}&build=${build_name}&platform=${platform}&date=${date}&compile=${build_status}&check=${check_status}&install=${install_status}&distcheck=${distcheck_status}&rpm=${rpm_status}&pkg=${pkg_status}" > /dev/null 2>&1
+	do_command "curl --digest --user $USER_PW" "http://test.opendap.org/cgi-bin/build_recorder.pl?host=${host}&build=${build_name}&platform=${platform}&date=${date}&compile=${build_status}&check=${check_status}&install=${install_status}&distcheck=${distcheck_status}&rpm=${rpm_status}&pkg=${pkg_status}" 
 
         verbose "Upload the log file"
-        do_command curl --digest --user $USER_PW -F name=${make_log} -F uploaded_file=@${make_log} http://test.opendap.org/cgi-bin/build_log_copy.pl > /dev/null 2>&1
+        do_command curl --digest --user $USER_PW -F name=${make_log} -F uploaded_file=@${make_log} http://test.opendap.org/cgi-bin/build_log_copy.pl 
+
     fi
 
     # keep some log file copies on the local host too...

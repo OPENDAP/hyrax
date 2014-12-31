@@ -12,4 +12,4 @@ source spath.sh
 # dependencies.
 ./hyrax_build.sh -v -c
 
-./hyrax_report.sh -o OSX_10.10 -r "`cat login.txt`"
+./hyrax_report.sh -o centos_6 -r "`cat login.txt`"
