@@ -1,57 +1,126 @@
 
 This is README describes how to use the very simple scripts here to
-clone and build Hyrax using the 17 or so repositories that contain its
-various source code modules. This is a temporary solution that used
-the code we have migrated from subversion to git while work on a more
-long-term solution was in-progres. As of 12/23/14 the 'bes' repo can
-be used to build all of the parts of the BES except libdap. There's a
-short document describing how to do that:
+clone and build Hyrax. The scripts can also be used to set up a kind
+of poor-man's nightly, or CI, build.
 
-      http://docs.OPeNDAP.org/index.php/Hyrax_GitHub_Source_Build
+The scripts in this repo are not the only way to build Hyrax, however.
+You can easily clone the three main repos and build them using the
+normal autotools (for libdap and BES) and ant (for the OLFS) process.
+Because Hyrax is a bit more complicated than a simple webapp, the
+process has a few more steps, but it's certainly possible to build the
+server in under 10 minutes on a typical laptop. For instructions see:
 
-This still works, and builds the same code, but it's more work if
-you're building the whole (or most of) the Hyrax server.
+      http://docs.opendap.org/index.php/Hyrax_GitHub_Source_Build
 
-Note that the repos on GitHub have all of the branches and tags; after
-a clone, use branch -a to see them. 
+Here's how to build using the scripts contained in this project. First,
+the short version, which will work if you have a machine that meets the 
+prerequisites:
 
-The recipe - short version - which leaves out building the third-party
-packages that Hyrax needs to build all of the modules associated with
-a full build:
+    source spath.sh 
 
-0 build the dependencies
+    ./hyrax_clone.sh
 
-1 source spath.sh 
-
-2 ./hyrax_clone.sh
-
-3 ./hyrax_build.sh
+    ./hyrax_build.sh
 
 The longer version:
 
-1. Get and build the 'hyrax-dependencies' by either cloning the that
-repo (https://github.com/OPENDAP/hyrax-dependencies) or downloading
-the tarball from:
+0. You need a Linux/OSX/Unix computer that can compile C, C++ and
+Java. Most of the requirements are fairly plain, with the exception
+that you'll need a recent copy of bison and flex and newer versions of
+the autotools software. Since CentOS/RedHat comes with 'yum' and the
+yum command syntax is fairly concise, I'll use it as shorthand for the
+packages you need (with the advantage that some users can cut and
+paste in a plain machine and get the packages installed very quickly):
 
-    http://www.opendap.org/pub/source/hyrax-dependencies-1.9.5.tar
-    
-Note that since this a collection of tar.gz files, it is not
-compressed itself
+yum install java-1.7.0-openjdk java-1.7.0-openjdk-devel ant git \
+ gcc-c++ flex bison openssl-devel libuuid-devel readline-devel \
+ zlib-devel libjpeg-devel libxml2-devel curl-devel
 
-2. Set up the 'prefix' and 'PATH' environment variables in the shell
-you're using. 
+Then download and build the latest versions of autoconf, automake and
+libtool. Those can be found at:
+
+    http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz
+    http://ftp.gnu.org/gnu/automake/automake-1.14.1.tar.gz
+    http://ftp.gnu.org/gnu/libtool/libtool-2.4.2.tar.gz
+
+and are very easy to build.
+
+1. Set up the 'prefix' and 'PATH' environment variables in the shell
+you're using. Use 'source spath.sh' to do this. This will set the
+'prefix' environment variable to `pwd`/build and add
+`pwd`/build/bin to the front of PATH so that libdap, BES and the
+various modules/handlers for the BES can find the dependencies once
+they are built.
+
+    source spath.sh
  
-3. Now clone all of the source repos for Hyrax using the 'hyrax_clone.sh'
-script. This will take a while, but it's not too bad. The script takes
-two options: verbose (-v) and dry_run (-n).
+2. Now clone all of the source repos for Hyrax using the
+'hyrax_clone.sh' script. This will take a while, but it's not too bad.
+The script takes some options: verbose (-v), dry run (-n) and No
+Dependencies (-D). The default will clone all of the repos including
+the hyrax-dependencies. If you're building on CentOS and want to use
+EPEL for the deps, use -D. Using -D will suppress cloning the
+hyrax-dependencies repo. This script assumes you want to clone the BES
+and load all of the modules/handlers that normally are released with
+Hyrax. If thats not what you want to do, go to the web page described
+earlier and build the code by hand, which will give you complete
+control over what software is cloned from git, how it is built and so
+on.
 
-4. Build the code using the 'hyrax_build.sh' script. It takes three
-options: verbose (-v), dry_run (-n) and prefix (-p). You don't need to
-use the prefix option. However, a log of what it did will help sort
-out problems (i.e., ./hyrax_build.sh -v 2&>1 | tee guild.log).
+    ./hyrax_clone.sh -v
 
-The 'hyrax_clean.sh' will remove all the built stuff so you can run
-hyrax_build.sh from scratch.
+3. Build the code using the 'hyrax_build.sh' script. It takes various
+options: verbose (-v), dry run (-n) and some others; -h provides some
+help. This script will build all of the code, including the
+hyrax-dependencies if they are present (so this script works
+'intelligently' in conjunction with the hyrax_clone.sh script). The -c
+and -d options run the 'clean' and 'distcheck' targets of the Makefiles
+and are useful for automated builds.
+
+    ./hyrax_build.sh -v
+
+4. Test the server. The hyrax_build.sh script will install the server
+in $prefix/build. If it completes successfully, the server should be
+built and installed.
+
+To start the server, first start the BES and then the OLFS. Note that
+the besctl utility is on your PATH since you sourced 'spath.sh' and
+therefore have $prefix/bin on your PATH
+
+    besctl start
+
+    ./build/apache-tomcat-7.0.57/bin/startup.sh
+
+Now goto http://localhost:8080/opendap and you should see the server
+and the test data that is distributed with it. If not here are some things
+to check:
+
+* Is the BES running? There should be several processes associated
+with the BES and you can see them using 'besctl pids'. If not, look at
+the BES log file ($prefix/build/var/bes.log) for error messages. 
+
+* Is tomcat runnning? Use 'ps -ef | grep tomcat' to see if it is. If not, look
+in $prefix/bui.d apache-tomcat-*/logs/catalins.out for clues as to why.
+
+* Are you working on a machine that has ports like 8080 blocked? Hyrax needs
+an open port for Tomcat, nominally 8080, plus an open port for the BES. 
+By default the BES uses port 10022.
+
+For more deatailed inforamtion on Hyrax and its configuration, see:
+
+    http://docs.opendap.org/index.php/Documentation
+
+Other scripts in this repo: hyrax_report.sh and hyrax_branch.sh
+
+hyrax_report.sh is used to compile and report on a build and forms the
+basis of the simple nightly build system. It's an adaptation of code
+we used with SVN, but now more robust. The hyrax_build.sh script writes
+log files; hyrax_report.sh grovels over those, builds up a 'report' for
+each of the three repos (libdap, BES and OLFS) and then, optionally, 
+uploads the result to our build database.
+
+The hyrax_branch.sh script is a quick hack to change the branch of all
+of the code, including the BES modules. 
 
 
 

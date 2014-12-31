@@ -1,13 +1,19 @@
 #!/bin/sh
 #
-# Clean it all; not very elegant; -r == 'really clean' removes bin, lib, ...
+# For each of the three projects (libdap, bes, olfs) and the bes
+# submodules, set the current branch to be 
 
-args=`getopt vn $*`
-if [ $? != 0 ]
-then
-    echo "Usage: $0 [options] where options are:"
+function help {
+    echo "Usage: $0 [options] <branch name>, where options are:"
+    echo "-h: help; this message"
     echo "-v: verbose"
     echo "-n: dry run; just show what would be done"
+}
+
+args=`getopt hvn $*`
+if [ $? != 0 ]
+then
+    help
     exit 2
 fi
 
@@ -20,48 +26,54 @@ for i in $*
 do
     case "$i"
 	in
+	-h)
+	    help
+	    exit 0;;
         -v)
-            verbose="yes";
+            verbose="yes"
             shift;;
         -n)
-            dry_run="yes";
+            dry_run="yes"
             shift;;
         --)
             shift; break;;
     esac
 done
 
-function do_command {
-    if test "$dry_run" = "yes"
+function verbose {
+    if test -n "$verbose"
     then
-	echo "$1"
-    else
-	if test "$verbose" = "yes"
-	then
-	    echo $1
-	fi
-	$1
+        echo "$*"
     fi
 }
 
-if test "x$verbose" = "xyes"
-then
-    echo "Switching to branch $1"
-fi
+function do_command {
+    if test "$dry_run" = "yes"
+    then
+	echo "$*"
+    else
+	verbose "$*"
+	$*
+    fi
+}
 
-echo "libdap: "
+verbose "Switching to branch $1"
+
+if test -d libdap
+then
+verbose "libdap: "
 (do_command "cd libdap" && do_command "git checkout $1")
-
-echo "bes: "
-(do_command "cd bes" && do_command "git checkout $1")
-
-echo "olfs: "
-(do_command "cd olfs" && do_command "git checkout $1")
-
-# in a sub-shell
-(
-if cd modules
-then
-    for m in `ls -1`; do echo "$m: "; (do_command "cd $m" && do_command "git checkout $1"); done
 fi
-) # 'cd modules sub-shell
+
+if test -d bes
+then
+verbose "bes: "
+(do_command "cd bes" && do_command "git checkout $1")
+(do_command "cd bes" && do_command "git submodule foreach" 'git checkout' $1)
+fi
+
+if test -d olfs
+then
+verbose "olfs: "
+(do_command "cd olfs" && do_command "git checkout $1")
+fi

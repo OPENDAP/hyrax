@@ -7,7 +7,7 @@
 # Set 'prefix' to either the first argument or the current working directory.
 # Can't use ${1:-...}; positional params don't work in the ${:-} syntax
 prefix=$1
-export prefix=${prefix:-$PWD}
+export prefix=${prefix:-$PWD/build}
 
 if echo $PATH | grep $prefix > /dev/null
 then
@@ -25,11 +25,12 @@ export LD_LIBRARY_PATH=$prefix/lib:$prefix/deps/lib
 # I removed the apache tomcat dist from dependencies/downloads 
 # because it was causing bloat. Assume that a typical nightly build
 # has both the tar.gz and directory for tomcat. jhrg 4/28/14
+#
+# Added it back. The new tomcat 7 scripts don't require that 
+# CATALINA_HOME is set, so this is really for TC 6 compat. jhrg 12/30/14
 tc=`ls -d -1 $prefix/apache-tomcat-* 2> /dev/null | grep -v '.*\.tar\.gz'`
 if test -n "$tc"
 then
     export TOMCAT_DIR=$tc
     export CATALINA_HOME=$TOMCAT_DIR
-else
-    echo "Can't find tomcat..."
 fi
