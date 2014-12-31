@@ -144,9 +144,6 @@ function do_ant_build {
 	do_command "ant server $*"
 	verbose "%%% make status: $? (ant server $*)"
 
-	do_command "ant check $*"
-	verbose "%%% check status: $? (ant check $*)"
-
 	if test -d $tomcat_webapps
 	then
 	    do_command "cp build/dist/opendap.war $tomcat_webapps"
@@ -155,6 +152,9 @@ function do_ant_build {
 	    echo "Could not find $tomcat_webapps"
 	    verbose "%%% install status: 2"
 	fi
+
+	do_command "ant check $*"
+	verbose "%%% check status: $? (ant check $*)"
     fi
     )
 }
