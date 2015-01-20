@@ -8,7 +8,7 @@ function help {
     echo "-h: help; this message"
     echo "-v: verbose"
     echo "-n: print what would be done"
-    echo "-D: Do not get the hyrax-dependencies repo"
+    echo "-D: do not get the hyrax-dependencies repo (defult is to get it)"
 }
 
 args=`getopt hvnD $*`
@@ -23,6 +23,7 @@ set -- $args
 # Set verbose and do_nothing to false
 vernose="";
 dry_run="no"
+get_deps="yes"
 for i in $*
 do
     case "$i"
@@ -35,6 +36,9 @@ do
             shift;;
         -n)
             dry_run="yes"
+            shift;;
+        -D)
+            get_deps="no"
             shift;;
         --)
             shift; break;;
@@ -61,22 +65,22 @@ function do_command {
 
 repo_root=https://github.com/opendap
 
-# A kludge; assume that if ncdump is _not_ found, then we should
-# build the dependencies from our own collection of tar balls.
-# 
-# Disabled for now, but use 'if ! which ncdump > /dev/null 2>&1 && ...
-#
-# jhrg 12/29/14
+# On CentOS the fileout_netcdf tests fail when the RPM netcdf and
+# hyrax-dependencies netcdf libraries are mixed. jhrg 1/2/15
+if test "$get_deps" = "yes"
+then
 
-if test ! -d hyrax-dependencies
-then 
-    do_command "git clone $repo_root/hyrax-dependencies.git $verbose"
-else
-    (
-    cd hyrax-dependencies
-    verbose "In hyrax-dependencies..."
-    do_command "git pull $verbose"
-    )
+    if test ! -d hyrax-dependencies
+    then 
+	do_command "git clone $repo_root/hyrax-dependencies.git $verbose"
+    else
+	(
+	cd hyrax-dependencies
+	verbose "In hyrax-dependencies..."
+	do_command "git pull $verbose"
+	)
+    fi
+
 fi
 
 if test ! -d libdap
