@@ -4,9 +4,12 @@
 # submodules, set the current branch to be 
 
 function help {
-    echo "Usage: $0 [options] <branch name>, where options are:"
+    echo "Usage: $0 [options] <branch name>, where it's assumed you're using libdap4"
+    echo "unless you supply the -2 switch."
+    echo "Options are:"
     echo "-h: help; this message"
     echo "-v: verbose"
+    echo "-2: Use libdap, not libdap4"
     echo "-n: dry run; just show what would be done"
 }
 
@@ -22,6 +25,8 @@ set -- $args
 # Set verbose and do_nothing to false
 verbose="no"
 dry_run="no"
+libdap="libdap4"
+
 for i in $*
 do
     case "$i"
@@ -32,6 +37,9 @@ do
         -v)
             verbose="yes"
             shift;;
+	-2)
+	    libdap="libdap"
+	    shift;;
         -n)
             dry_run="yes"
             shift;;
@@ -59,10 +67,10 @@ function do_command {
 
 verbose "Switching to branch $1"
 
-if test -d libdap
+if test -d $libdap
 then
-verbose "libdap: "
-(do_command "cd libdap" && do_command "git checkout $1")
+verbose "$libdap: "
+(do_command "cd $libdap" && do_command "git checkout $1")
 fi
 
 if test -d bes

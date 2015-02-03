@@ -8,6 +8,7 @@ function help {
     echo "-h: help; this message"
     echo "-v: verbose"
     echo "-n: print what would be done"
+    echo "-2: DAP2 build"
     echo "-c: run make clean before the builds"
     echo "-d: run the distcheck targets for the C++ code"
     echo "-p prefix: use 'prefix' as the build/install prefix"
@@ -29,8 +30,10 @@ set -- $args
 prefix=${prefix:-$PWD/build}
 vernose=""
 dry_run="no"
+dap2="no"
 clean=""
 distcheck=""
+
 for i in $*
 do
     case "$i"
@@ -44,6 +47,9 @@ do
         -n)
             dry_run="yes"
             shift;;
+	-2)
+	    dap2="yes"
+	    shift;;
 	-c)
 	    clean="yes"
 	    shift;;
@@ -190,7 +196,14 @@ fi
 
 prefix_arg=--prefix=$prefix
 
-do_make_build libdap $prefix_arg --enable-developer 2>&1 | tee libdap.log
+if test "$dap2" == "yes"
+then
+    libdap="libdap"
+else
+    libdap="libdap4"
+fi
+
+do_make_build $libdap $prefix_arg --enable-developer 2>&1 | tee $libdap.log
 
 do_make_build bes $prefix_arg $deps --enable-developer 2>&1 | tee bes.log
 
