@@ -16,7 +16,7 @@ function help {
     echo "-2: Build the dap2 code and bes/modules branches"
 }
 
-args=`getopt hvn $*`
+args=`getopt hv2 $*`
 if [ $? != 0 ]
 then
     help

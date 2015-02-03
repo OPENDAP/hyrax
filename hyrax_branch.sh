@@ -13,7 +13,7 @@ function help {
     echo "-n: dry run; just show what would be done"
 }
 
-args=`getopt hvn $*`
+args=`getopt hv2n $*`
 if [ $? != 0 ]
 then
     help
