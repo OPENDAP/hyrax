@@ -14,7 +14,7 @@ function help {
     echo "-p prefix: use 'prefix' as the build/install prefix"
 }
 
-args=`getopt hvncdp: $*`
+args=`getopt hvn2cdp: $*`
 if test $? != 0
 then
     help
