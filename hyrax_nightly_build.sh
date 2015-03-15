@@ -113,5 +113,5 @@ do_command ./hyrax_build.sh -v -c $dap2_build
 if test "$record" = "yes"
 then
     verbose "Recording the build..."
-    do_command ./hyrax_report.sh -o centos_6 -r "`cat login.txt`"
+    do_command ./hyrax_report.sh $dap2_build -o centos_6_master -r "`cat login.txt`"
 fi

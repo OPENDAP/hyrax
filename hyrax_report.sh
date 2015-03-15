@@ -9,12 +9,13 @@ function help {
     echo "-h: help; this message"
     echo "-v: verbose"
     echo "-n: print what would be done"
+    echo "-2: DAP2 only build - look for libdap.log, not libdap4.log"
     echo "-r <login>: record the build on test.opendap.org"
     echo "-o <os_name>: Use 'os_name' for the os name; blank otherwise"
     echo "-a <archive>: Where to store old log files? Default: 'logs/'"
 }
 
-args=`getopt vnr:o:a: $*`
+args=`getopt hvn2r:o:a: $*`
 if test $? != 0
 then
     help
@@ -26,8 +27,11 @@ set -- $args
 # Set verbose and dry_run to false
 verbose=""
 dry_run="no"
+
 record_build="no"
 logs_archive="logs"
+libdap="libdap4"
+
 for i in $*
 do
     case "$i"
@@ -41,6 +45,9 @@ do
         -n)
             dry_run="yes"
             shift;;
+	-2)
+	    libdap="libdap"
+	    shift;;
 	-o)
 	    os_name="$2"
 	    shift; shift;;
@@ -83,14 +90,14 @@ then
 fi
 
 date=`date +%Y.%m.%d`
-platform=`libdap/conf/config.guess`
+platform=`${libdap}/conf/config.guess`
 
     # dap-server fileout_netcdf freeform_handler \
     # hdf4_handler hdf5_handler ncml_module netcdf_handler gateway_module \
     # csv_handler fits_handler xml_data_handler gdal_handler fileout_gdal \
     # ugrid_functions
 
-for build_name in libdap bes olfs
+for build_name in $libdap bes olfs
 do
     verbose "Processing log for $build_name"
 
