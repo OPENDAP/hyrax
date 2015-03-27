@@ -9,6 +9,6 @@ login.txt
 logs/
 hyrax-dependencies/
 bes/
-libdap/
+libdap4/
 olfs/
 build/

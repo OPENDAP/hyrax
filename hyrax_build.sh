@@ -11,10 +11,11 @@ function help {
     echo "-2: DAP2 build"
     echo "-c: run make clean before the builds"
     echo "-d: run the distcheck targets for the C++ code"
-    echo "-p prefix: use 'prefix' as the build/install prefix"
+    echo "-N: If the dependencies are present, only build the <for-rpm> target (usfule for -N)"
+    echo "-p prefix: use <prefix> as the build/install prefix"
 }
 
-args=`getopt hvn2cdp: $*`
+args=`getopt hvn2cdrRNp: $*`
 if test $? != 0
 then
     help
@@ -33,6 +34,7 @@ dry_run="no"
 dap2="no"
 clean=""
 distcheck=""
+for_nasa_rpm=""
 
 for i in $*
 do
@@ -56,6 +58,9 @@ do
 	-d)
 	    distcheck="yes"
 	    shift;;
+	-N)
+	    for_nasa_rpm="for-rpm CONFIGURE_FLAGS=--disable-shared"
+	    shift;;
 	-p)
 	    prefix=$2
 	    shift; shift;;
@@ -76,7 +81,6 @@ function do_command {
     then
 	echo "$*"
     else
-	# if test -n "$verbose"; then echo "$*"; fi
 	verbose "$*"
 	$*
     fi
@@ -126,8 +130,6 @@ function do_make_build {
 	    do_command "make distcheck -j9"
 	    verbose "%%% distcheck status: $?"
 	fi
-	   
-	# Add RPM support here... jhrg 12/30/14
     fi
     )
 }
@@ -173,7 +175,9 @@ then
     verbose "Building the local dependencies"
 
     cd hyrax-dependencies
-    do_command "make -j9"
+    # $for_nasa_rpm will contain the magic needed to make just the stuff
+    # we need for the BES rpm for NASA (with static HDF4/hdfeos2, ...)
+    do_command "make -j9 $for_nasa_rpm"
 
     # figure out the apache tomcat dir name based on the rev of tomcat's 
     # tar file in the 'extra_downloads' dir and replace if needed. This 

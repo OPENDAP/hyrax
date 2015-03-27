@@ -4,18 +4,18 @@
 
 function help {
     echo "Usage: $0 [options]"
-    echo "Make sure to have /usr/local/bin in the PATH if there are tools"
-    echo "installed there (e.g., autoconf)"
+    echo "Edit the lines at the end of this script to set up"
+    echo "different builds like ones that make the custom NASA"
+    echo "rpm files."
     echo "Options are:"
     echo "-h: help; this message"
     echo "-p: install prefix, default is `PWD`/build"
     echo "-v: verbose"
     echo "-n: dry run"
     echo "-r: record the build"
-    echo "-2: Build the dap2 code and bes/modules branches"
 }
 
-args=`getopt hp:vnr2 $*`
+args=`getopt hp:vnr $*`
 if [ $? != 0 ]
 then
     help
@@ -26,7 +26,6 @@ set -- $args
 
 # Set verbose and do_nothing to false
 verbose="no"
-dap2_build=""
 record="no"
 dry_run="no"
 prefix=""
@@ -44,9 +43,6 @@ do
         -v)
             verbose="yes"
             shift;;
-	-2)
-	    dap2_build="-2"
-	    shift;;
 	-n)
 	    dry_run="yes"
 	    shift;;
@@ -98,20 +94,23 @@ function do_command {
 
 verbose "Cloning hyrax..."
 
-do_command ./hyrax_clone.sh -v -D $dap2_build
-
-# Using -v (verbose) is needed to get the status info in the logs.
-# That information is used by hyrax_report.sh. The -c (clean) option
-# only cleans our code; it does not force a rebuild of the
-# dependencies if the are built (NB: -D suppresses getting our copy 
-# of the deps from github.
+# -D: Don't clone/pull the hyrax-dependencies repo.
+# -v: verbose
+do_command ./hyrax_clone.sh -v -D
 
 verbose "Building hyrax..."
 
-do_command ./hyrax_build.sh -v -c $dap2_build
+# -v: verbose; needed to get the status info in the logs. That
+# information is used by hyrax_report.sh.
+# -c:clean; only cleans our code; it does not force a rebuild of the
+# dependencies if the are built
+# -d Run the distcheck target
+# -R Build the NASA-specific RPM
+# -N Build the for-rpm target in the hyrax-depedencies
+do_command ./hyrax_build.sh -v -c -d -R -N
 
 if test "$record" = "yes"
 then
     verbose "Recording the build..."
-    do_command ./hyrax_report.sh $dap2_build -o centos_6_master -r "`cat login.txt`"
+    do_command ./hyrax_report.sh -o centos_6_master -r "`cat login.txt`"
 fi
