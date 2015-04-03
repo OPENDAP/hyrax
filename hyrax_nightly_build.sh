@@ -105,9 +105,8 @@ verbose "Building hyrax..."
 # -c:clean; only cleans our code; it does not force a rebuild of the
 # dependencies if the are built
 # -d Run the distcheck target
-# -R Build the NASA-specific RPM
 # -N Build the for-rpm target in the hyrax-depedencies
-do_command ./hyrax_build.sh -v -c -d -R -N
+do_command ./hyrax_build.sh -v -c -d -N
 
 if test "$record" = "yes"
 then

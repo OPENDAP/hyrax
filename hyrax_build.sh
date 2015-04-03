@@ -15,7 +15,7 @@ function help {
     echo "-p prefix: use <prefix> as the build/install prefix"
 }
 
-args=`getopt hvn2cdrRNp: $*`
+args=`getopt hvn2cdNp: $*`
 if test $? != 0
 then
     help
@@ -28,8 +28,27 @@ set -- $args
 
 # Not sure about this way of handling prefix... Should we make it
 # easier to build and install to /usr/local? 
-prefix=${prefix:-$PWD/build}
-vernose=""
+export prefix=${prefix:-$PWD/build}
+
+if echo $PATH | grep $prefix > /dev/null
+then
+    echo "PATH Already set"
+else
+    export PATH=$prefix/bin:$PATH
+fi
+
+# This is needed for the linux builds; if using the deps libraries
+# on linux, those directories also need to be on LD_LIBRARY_PATH.
+# I'm not sure this is true... jhrg 1/2/13
+# We do need this for icu-3.6 on AWS EC2 instances. jhrg 3/5/13
+if echo $LD_LIBRARY_PATH | grep $prefix/lib:$prefix/deps/lib > /dev/null
+then
+    echo "LD_LIBRARY_PATH already set"
+else
+    export LD_LIBRARY_PATH=$prefix/lib:$prefix/deps/lib:$LD_LIBRARY_PATH
+fi
+
+verbose=""
 dry_run="no"
 dap2="no"
 clean=""
