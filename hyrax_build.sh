@@ -11,7 +11,7 @@ function help {
     echo "-2: DAP2 build"
     echo "-c: run make clean before the builds"
     echo "-d: run the distcheck targets for the C++ code"
-    echo "-N: If the dependencies are present, only build the <for-rpm> target (usfule for -N)"
+    echo "-N: If the dependencies are present, build the <for-rpm> target (use with -N)"
     echo "-p prefix: use <prefix> as the build/install prefix"
 }
 
@@ -34,7 +34,7 @@ if echo $PATH | grep $prefix > /dev/null
 then
     echo "PATH Already set"
 else
-    export PATH=$prefix/bin:$PATH
+    export PATH=$prefix/bin:$prefix/deps/bin:$PATH
 fi
 
 # This is needed for the linux builds; if using the deps libraries

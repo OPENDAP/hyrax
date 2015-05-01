@@ -13,7 +13,7 @@ if echo $PATH | grep $prefix > /dev/null
 then
     echo "PATH Already set"
 else
-    export PATH=$prefix/bin:$PATH
+    export PATH=$prefix/bin:$prefix/deps/bin:$PATH
 fi
 
 # This is needed for the linux builds; if using the deps libraries
