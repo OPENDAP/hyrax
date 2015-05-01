@@ -62,7 +62,7 @@ if echo $PATH | grep $prefix > /dev/null
 then
     echo "PATH Already set"
 else
-    export PATH=$prefix/bin:$PATH
+    export PATH=$prefix/bin:$prefix/deps/bin:$PATH
 fi
 
 # This is needed for the linux builds; if using the deps libraries
@@ -96,7 +96,7 @@ verbose "Cloning hyrax..."
 
 # -D: Don't clone/pull the hyrax-dependencies repo.
 # -v: verbose
-do_command ./hyrax_clone.sh -v -D
+do_command ./hyrax_clone.sh -v
 
 verbose "Building hyrax..."
 

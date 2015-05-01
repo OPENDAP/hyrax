@@ -11,7 +11,7 @@ function help {
     echo "-2: DAP2 build"
     echo "-c: run make clean before the builds"
     echo "-d: run the distcheck targets for the C++ code"
-    echo "-N: If the dependencies are present, build the <for-rpm> target (use with -N)"
+    echo "-N: If the dependencies are present, build the <all-static-rpm> target"
     echo "-p prefix: use <prefix> as the build/install prefix"
 }
 
@@ -78,7 +78,7 @@ do
 	    distcheck="yes"
 	    shift;;
 	-N)
-	    for_nasa_rpm="for-rpm CONFIGURE_FLAGS=--disable-shared"
+	    for_nasa_rpm="for-static-rpm CONFIGURE_FLAGS=--disable-shared"
 	    shift;;
 	-p)
 	    prefix=$2
