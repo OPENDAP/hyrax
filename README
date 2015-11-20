@@ -34,7 +34,7 @@ paste in a plain machine and get the packages installed very quickly):
 
 yum install java-1.7.0-openjdk java-1.7.0-openjdk-devel ant git \
  gcc-c++ flex bison openssl-devel libuuid-devel readline-devel \
- zlib-devel libjpeg-devel libxml2-devel curl-devel
+ zlib-devel libjpeg-devel libxml2-devel curl-devel ant-junit
 
 Then download and build the latest versions of autoconf, automake and
 libtool. Those can be found at:
