@@ -1,3 +1,9 @@
+Updated OLFS configuration defaults in viewers.xml file to reflect
+changes for ncWMS2 and Godiva3
+    
+Patched a problem with the way the XSL transforms are carried out that
+could have left the process running in an unexpected directory.
+      
 Added an in-memory cache for the handlers. Hyrax module developers can
 use this to speed response times when building metadata responses (e.g., DAS)
 is time-consuming.
@@ -27,7 +33,7 @@ Fixes for the HDF5 handler:
 Updated GDAL-based code to use GDAL 2.x
 
 Fixed BES 'Transmitter' modules (modules that build non-DAP responses
-like netCDF, JSON, etc. so that they work when constraint expressions
+like netCDF, JSON, etc.) so that they work when constraint expressions
 contain function calls.
 
 Fixed a bug (Hyrax-282) in the netCDF Transmitter where subsets of Grid variables
