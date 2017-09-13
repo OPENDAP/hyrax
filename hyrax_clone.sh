@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Clone all of Hyrax from the OpenDAP organization page on GitHub
 # This is fairly rough...

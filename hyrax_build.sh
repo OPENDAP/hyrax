@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Build all of Hyrax given a fresh checkout from git.
 # This is fairly rough...
