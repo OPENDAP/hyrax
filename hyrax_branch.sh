@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # For each of the three projects (libdap, bes, olfs) and the bes
 # submodules, set the current branch to be 

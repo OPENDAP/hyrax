@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Build all of Hyrax given a fresh checkout from git.
 # This is fairly rough...
@@ -78,7 +78,7 @@ do
 	    distcheck="yes"
 	    shift;;
 	-N)
-	    for_nasa_rpm="for-static-rpm CONFIGURE_FLAGS=--disable-shared"
+	    for_nasa_rpm="for-static-rpm"
 	    shift;;
 	-p)
 	    prefix=$2
