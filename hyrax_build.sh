@@ -11,11 +11,12 @@ function help {
     echo "-2: DAP2 build"
     echo "-c: run make clean before the builds"
     echo "-d: run the distcheck targets for the C++ code"
+    echo "-D: Do not build thehyrax-dependencies package"
     echo "-N: If the dependencies are present, build the <all-static-rpm> target"
     echo "-p prefix: use <prefix> as the build/install prefix"
 }
 
-args=`getopt hvn2cdNp: $*`
+args=`getopt hvn2cdDNp: $*`
 if test $? != 0
 then
     help
@@ -53,6 +54,7 @@ dry_run="no"
 dap2="no"
 clean=""
 distcheck=""
+build_hyrax_deps="yes"
 for_nasa_rpm=""
 
 for i in $*
@@ -76,6 +78,9 @@ do
 	    shift;;
 	-d)
 	    distcheck="yes"
+	    shift;;
+	-D)
+	    build_hyrax_deps="no"
 	    shift;;
 	-N)
 	    for_nasa_rpm="for-static-rpm"
@@ -187,8 +192,7 @@ function do_ant_build {
     )
 }
 
-# Put the hyrax deps build here?
-if test -d hyrax-dependencies
+if test -d hyrax-dependencies -a x$build_hyrax_deps = xyes
 then
     (
     verbose "Building the local dependencies"
