@@ -25,8 +25,6 @@ fi
 
 set -- $args
 
-# Set verbose and dry_run to false
-
 # Not sure about this way of handling prefix... Should we make it
 # easier to build and install to /usr/local? 
 export prefix=${prefix:-$PWD/build}
@@ -48,6 +46,8 @@ then
 else
     export LD_LIBRARY_PATH=$prefix/lib:$prefix/deps/lib:$LD_LIBRARY_PATH
 fi
+
+# Set verbose and dry_run to false
 
 verbose=""
 dry_run="no"
