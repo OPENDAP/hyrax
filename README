@@ -111,18 +111,6 @@ For more detailed information on Hyrax and its configuration, see:
 
     http://docs.opendap.org/index.php/Documentation
 
-Other scripts in this repo: hyrax_report.sh and hyrax_branch.sh
-
-hyrax_report.sh is used to compile and report on a build and forms the
-basis of the simple nightly build system. It's an adaptation of code
-we used with SVN, but now more robust. The hyrax_build.sh script writes
-log files; hyrax_report.sh grovels over those, builds up a 'report' for
-each of the three repos (libdap, BES and OLFS) and then, optionally, 
-uploads the result to our build database.
-
-The hyrax_branch.sh script is a quick hack to change the branch of all
-of the code, including the BES modules.
-
 -----------------------------------------------------------------------
 
 Notes:
@@ -136,6 +124,3 @@ If one of the distcheck targets failed, then the build dir that
 it left behind will not be writable by anyone, so chmod 755 or sudo
 to remove it.
 
-When setting up a nightly build you need to add the file login.txt
-to enable logins to the remote build recorder and you will need to
-edit the OS name hardcoded into the nightly_build script.
