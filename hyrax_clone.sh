@@ -23,7 +23,6 @@ set -- $args
 # Set verbose and do_nothing to false
 verbose="";
 dry_run="no"
-dap2="no"
 get_deps="yes"
 
 for i in $*
@@ -39,9 +38,6 @@ do
         -n)
             dry_run="yes"
             shift;;
-	-2)
-	    dap2="yes"
-	    shift;;
         -D)
             get_deps="no"
             shift;;
@@ -132,15 +128,10 @@ if cd bes 2> /dev/null
 then
     verbose "In bes updatig modules..."
 
-    if test ! -f configure.ac
-    then
-	do_command "ln -s configure_modules.ac configure.ac"
-    fi
-
-    # Kludge: Use csv_handler as a sentinel; if it's code is present
+    # Kludge: Use hdf4_handler as a sentinel; if it's code is present
     # assume this all has been run and just run 'pull' for all of the
     # submodules.
-    if test ! -f modules/csv_handler/configure.ac
+    if test ! -f modules/hdf4_handler/Makefile.am
     then
 	# Get submodules (HDF4, HDF5, maybe something else...)
 	do_command "git submodule update --init"
