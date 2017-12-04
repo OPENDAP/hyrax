@@ -1,3 +1,5 @@
+Changed BES timeout error from 418 (TeaPot) to 504 (Gateway Timeout).
+
 Updated OLFS configuration defaults in viewers.xml file to reflect
 changes for ncWMS2 and Godiva3
     

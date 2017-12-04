@@ -1,0 +1,43 @@
+HDF5: 
+
+[from Kent] I finished a non-trival update for the HDF5 hander
+to support SMAP and some MEaSURES NASA products. I merged all my
+coding to the master branch. I also updated the
+documents(configure.ac etc.) . Could you run coverity and see if new
+high risk issues appear? I hope it can be done ASAP because of the
+reason listed below. [Coverity run, issues addressed]
+ 
+When will you guys have another release? The Raytheon folks may depend
+on the leading underscore removal of the recent update in their
+software. I told them I will make my part available early January.
+ 
+Also I will not do anything with the HDF4 handler except updating the
+documents. I will tackle the code improvement some time later in this
+year.
+
+What's new for version 2.3.2 [the HDF5 handler]
+----------------------------
+CF option:
+
+- By default, the leading underscore of a variable path is removed for
+  all files. Although not recommended, Users can change the BES key
+  H5.KeepVarLeadingUnderscore at h5.conf.in to be true for backward
+  compatibility if necessary.
+ 
+- Significantly improve the support of generic HDF5 files that have
+  2-D lat/lon. This improvement makes some SMAP level 1, level 3 and
+  level 4 products plottable by CF tools such as Panoply.
+ 
+- Add the general support of netCDF-4-like HDF5 files that have 2-D
+  lat/lon. This improvement makes TOMS MEaSURES product plottable by
+  CF tools such as Panoply. It will aso support future potential
+  products that follow netCDF generic data model.
+
+lWe (OPeNDAP) also have some fixes in place: Better error messages and
+a new timeout feature that enables the front end to control the
+timeout duration for each BES - so even for a setup where here are
+many BES instances running on different machines, one configuration
+file can control when a response is taking too long and should
+timeout. The server now returns a decent message when it 'times out’
+and, lastly, the server offers an option whereby the timeout period is
+cancelled once data transmission starts.

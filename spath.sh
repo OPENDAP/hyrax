@@ -28,6 +28,9 @@ export LD_LIBRARY_PATH=$prefix/lib:$prefix/deps/lib
 #
 # Added it back. The new tomcat 7 scripts don't require that 
 # CATALINA_HOME is set, so this is really for TC 6 compat. jhrg 12/30/14
+#
+# And removed it... jhrg 10/11/17
+#
 # tc=`ls -d -1 $prefix/apache-tomcat-* 2> /dev/null | grep -v '.*\.tar\.gz'`
 # if test -n "$tc"
 # then
