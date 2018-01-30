@@ -100,7 +100,7 @@ fi
 
 if test ! -d bes
 then
-    do_command "git clone $repo_root/bes.git $verbose"
+    do_command "git clone https://github.com/RiverHendriksen/bes.git $verbose"
     do_command "git checkout $bes_module_branch"
 else
     (
@@ -113,7 +113,7 @@ fi
 
 if test ! -d olfs
 then
-    do_command "git clone $repo_root/olfs.git $verbose"    
+    do_command "git clone https://github.com/RiverHendriksen/olfs.git $verbose"    
 else
     (
     cd olfs
