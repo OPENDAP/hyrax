@@ -139,7 +139,7 @@ function do_make_build {
 	    do_command "make clean"
 	fi
 
-	do_command "make -j9"
+	do_command "make"
 	verbose "%%% make status: $?"
 
 	# some of the bes/handler tests fail w/parallel builds
@@ -151,7 +151,7 @@ function do_make_build {
 
 	if test -n "$distcheck"
 	then
-	    do_command "make distcheck -j9"
+	    do_command "make distcheck"
 	    verbose "%%% distcheck status: $?"
 	fi
     fi
@@ -200,7 +200,7 @@ then
     cd hyrax-dependencies
     # $for_nasa_rpm will contain the magic needed to make just the stuff
     # we need for the BES rpm for NASA (with static HDF4/hdfeos2, ...)
-    do_command "make -j9 $for_nasa_rpm"
+    do_command "make $for_nasa_rpm"
 
     # figure out the apache tomcat dir name based on the rev of tomcat's 
     # tar file in the 'extra_downloads' dir and replace if needed. This 
