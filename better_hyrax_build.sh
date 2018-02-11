@@ -5,6 +5,9 @@
 #If error "-bash: '\r': command not found" then run
 #sed -i 's/\r$//' better_hyrax_build,sh
 
+#sudo -s
+
+
 pwd
 
 # Uninstall current builds
@@ -44,4 +47,10 @@ make check
 make install
 cd ..
 
+user='bes'
+group='bes_group'
+sed -i "/BES.User=*/c\BES.User=${user}" ~/hyrax/build/etc/bes/bes.conf
+sed -i "/BES.Group=.*/c\BES.Group=${group}" ~/hyrax/build/etc/bes/bes.conf
+
 ./build/bin/besctl start
+./build/./apache-tomcat-7.0.57/bin/startup.sh
