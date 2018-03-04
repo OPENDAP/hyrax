@@ -26,25 +26,25 @@ echo $prefix
 
 # Build Hyrax dependencies
 cd hyrax-dependencies
-make
+make 2>&1 | tee hyrax-dependencies_make.log
 cd ..
 
 # Reconfigure and rebuild libdap4
 cd libdap4
 autoreconf -vif
-./configure --prefix=$prefix --enable-developer
-make 
-make check
-make install
+./configure --prefix=$prefix --enable-developer 2>&1 | tee libdap4_config.log
+make 2>&1 | tee libdap4_make.log
+make check 2>&1 | tee libdap4_make_check.log
+make install 2>&1 | tee libdap4_make_install.log
 cd ..
 
 # Reconfigure and rebuild bes
 cd bes
 autoreconf -vif
-./configure --prefix=$prefix --with-dependencies=$prefix/deps --enable-developer
-make
-make check
-make install
+./configure --prefix=$prefix --with-dependencies=$prefix/deps --enable-developer 2>&1 | tee bes_config.log
+make 2>&1 | tee bes_make.log
+make check 2>&1 | tee bes_make_check.log
+make install 2>&1 | tee bes_install.log
 cd ..
 
 user='bes'
