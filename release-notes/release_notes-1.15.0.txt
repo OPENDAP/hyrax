@@ -1,0 +1,143 @@
+
+1.15.0 release (24 September 2018)
+
+Welcome to the Hyrax 1.15.0 release
+
+This release, Hyrax-1.15, contains new features and bug fixes.
+
+The complete server documentation can be found on line at
+https://opendap.github.io/hyrax_guide/Master_Hyrax_Guide.html
+
+New Features
+
+CoverageJSON - For datasets that contain geo-spatial data, we now
+provide the option to get those data (and related metadata) encoded
+using the covjson format. Thanks to Corey Hemphill, Riley Rimer, and
+Lewis McGibbney for this contribution.
+
+JSON-LD - With this release Hyrax adds JSON-LD content to every
+browser navigable catalog page ( i.e. "*/contents.html") and to every
+dataset/granule OPeNDAP Data Access Form. This feature along with the
+site map generation can be used to assist search engines like Google
+to catalog/index/find the data you wish the world to access.
+
+New Data Access Form - The OPeNDAP Data Access Form is renewed. A more
+compact and response UI that we hope to be improving even more in the
+months to come.
+
+NASA Earthdata Login (URS) Support - In addition to utilizing the
+mod_auth_urs Apache module to provide Earthdata Login services Hyrax
+now has it's own standalone implementation of the Earthdata Login
+client. This means that it can be deployed using only Tomcat (or other
+servlet Engine) and still work with Earthdata Login with out binding
+it to an instance of Apache httpd.
+
+MetaData Store (MDS) - A new cache has been added to the BES for
+Metadata Responses (aka, the MDS or MetaData Store). This cache is
+unlike the other BES caches in that it is intended to be operated as
+either a 'cache' or a 'store.' In the latter case, items added will
+never be removed - it is an open-ended place where metadata response
+objects will be kept indefinitely. The MDS contents (as a cache or a
+store) will persist through Hyrax restarts.
+
+Prototype support for data stored on Amazon's S3 Web Object Store -
+Hyrax 1.15 has prototype support for subset-in-place of HDF5 and
+NetCDF4 data files that are stored on AWS S3. Data files stored in S3
+must be configured for use with this feature of Hyrax. To configure
+files for us with this feature, a special metadata file must be built
+and installed in the MDS. For this feature, the MDS should be run in
+'store' mode. Note: The software has a known problem with requests for
+very large numbers of variables in a single URL. Contact us for
+details. We welcome feedback on this new feature.
+
+Improved catalog support - We have generalized the Hyrax catalog
+system so that it is much easier to extend. As an example, we have
+implemented a new module that reads information about datasets from
+NASA's Common Metadata Repository (CMR) and uses that to display
+virtual directories for NASA data holdings. This software is currently
+available in source form only - contact us if you would like to extend
+the Hyrax Catalog system for your own data collections.
+
+Additional support for CF for HDF4 and HDF5 files
+
+HDF4 CF option - Enhance the support of handling the scale_factor and
+add_offset to follow the CF. The scale_factor and add_offset rule for
+the MOD16A3 product is different than other MODIS products. We make an
+exception for this product only to ensure the scale_factor and
+add_offset follow the CF conventions.
+
+For other the new features and fixes see the section titled “What’s
+new for Hyrax 1.15.0” in the HDF4 handler README files:
+https://github.com/OPENDAP/hdf4_handler/blob/master/README
+
+HDF5 CF option - Added support of the HDF-EOS5 Polar Stereographic(PS)
+and Lambert Azimuthal Equal Area(LAMAZ) grid projection files. Both
+projection files can be found in NASA LANCE products. Added HDF-EOS5
+grid latitude and longitude cache support. This is the same as what we
+did for the HDF-EOS2 grid. Added support for TROP-OMI, new OMI level 2
+and OMPS-NPP product. Removed the internal reserved netCDF-4
+attributes for DAP output. Made the behavior of the "drop long string"
+BES key consistent with the current limitation of netCDF Java.
+
+For other the new features and fixes see the section titled “What’s
+new for Hyrax 1.15.0” in the HDF5 handler README files:
+https://github.com/OPENDAP/hdf5_handler/blob/master/README
+
+Bug Fixes
+
+About 40 bugs have been fixed for this release. 
+
+Specific tickets fixed:
+
+HYRAX-10 The fileout netCDF-4 doesn't generate the correct dimensions for aggregated files
+HYRAX-247 <Dimension> elements in a constrained DMR sometimes have 'random' order
+HYRAX-248 fileout_gdal seems to build broken JP2k files
+HYRAX-362 Make the GeoTiff (GDAL) handler work with NCML aggregations
+HYRAX-554 BES now includes DMR++; hack the configure script WRT libcurl
+HYRAX-561 The fileout_netcdf, and/or the ncml_handler code does not clean up the temporary netCDF result file if the requesting client is killed during the transaction.
+HYRAX-588 Gateway HTML Form Rendering Failure
+HYRAX-591 Tests that create files fail 'make distcheck' (e.g., the tests for HYRAX-561)
+HYRAX-595 The "SHOW HELP" button in the DAP2 Data Request Form points to a broken link
+HYRAX-598 NULL pointer dereference in D4ParserSax2
+HYRAX-599 Symbolic links to data not showing up in Hyrax 1.14.0 RPMs on CentOS 7
+HYRAX-600 Unable to startup Hyrax installed from RPM on boot on Centos OS 7
+HYRAX-603 The OLFS authentication code is no longer compatible with the current deployment "bootstrap".
+HYRAX-612 Renaming the result of an aggregation (only join new?) fails.
+HYRAX-613 OLFS installation bootstrap is broken on CentOS-7
+HYRAX-621 Replace logo.gif with a transparent logo.png in Hyrax
+HYRAX-623 Fix the CI build
+HYRAX-630 The Keywords feature of libdap is hosed
+HYRAX-645 Build issue causes make -j check to fail
+HYRAX-646 Target collect-coverage-data doesn't work
+HYRAX-647 The DDS print_das() method does not produce the same DAS as the DAS::print() method for Grids sometimes
+HYRAX-648 MDS tests 61 and 62 fail on the first run of ./testsuite --conf=bes.mds.conf
+HYRAX-670 Reading values from olfs.xml file is fragile
+HYRAX-692 cppunit-config is no longer present in cppunit
+HYRAX-721 The implementation of Sequence in the XSLT based Data Request Form (IFH) is broken
+HYRAX-723 The DMR++ parser doesn't see a newline (cr?) as whitepspace.
+HYRAX-745 Broker service needs to make correct links for data access.
+HYRAX-755 The build_dmrpp code seems to fail on DMRs/Files with several variables.
+HYRAX-756 get_dmrpp fails on datasets where variables are not in the root group
+HYRAX-764 Fileout_netcdf returns empty response for dataset when no query is provided.
+HYRAX-767 Change the Data Request Form code (all 3 versions) so that it URL encodes the query before using it.
+HYRAX-775 The DMR response from the MDS has the xml:base attribute in a random place.
+HYRAX-790 geogrid is failing in OLFS regression tests
+HYRAX-791 w10n syntax collides with URI encoding rules enforced by recent Tomcat
+HYRAX-794 Some tests regarding the enum type in the netcdf handler  fail randomly
+HYRAX-801 ASAN Reveals 104 issues in the BES
+HYRAX-802 Issues remain in the Aggregation rename bug
+HYRAX-803 NcML Memory errors
+HYRAX-804 Error in ResponseBuilderTest - a unit test
+HYRAX-805 fileout_netcdf memory errors
+HYRAX-818 showNode removes catalog name from the path name of the node - stop it.
+HYRAX-833 Update baselines for BES cmdlm tests
+HYRAX-837 libdap seems to return DAP2 and DAP3.2 DDX responses in kind of random way.
+HYRAX-844 THREDDS catalog produced by Hyrax no longer work with Unidata code because of time zone issues
+HYRAX-845 BESUtil::get_time() has a pointer problem
+HYRAX-851 Memory leak in BESCatalog
+
+Required External Dependencies in order to run Hyrax 1.15.0, you will need:
+
+Java 1.7 or greater
+Tomcat 7.x or 8.x Note: On CentOS 6.6 use Java 7 + Tomcat 7 if you're using yum to install software.
+Linux (We provide RPMs for CentOS 6.9 and 7.13; install them with yum), Ubuntu, OSX or another suitable Unix OS.
