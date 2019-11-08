@@ -199,8 +199,15 @@ then
 
     cd hyrax-dependencies
     # $for_nasa_rpm will contain the magic needed to make just the stuff
-    # we need for the BES rpm for NASA (with static HDF4/hdfeos2, ...)
+    # we need for the BES rpm for NASA (with static HDF4/hdfeos2, ...).
+    # NB: The -N option of this script will build the static version of
+    # these dependencies; without -N you get all the deps as dynamic libraries.
     do_command "make -j9 $for_nasa_rpm"
+
+    # The above inpacks, builds and installs each dependency. It uses lots
+    # of space. This removes the source build directories, saving almost
+    # 2GB of disk. jhrg 10/24/19
+    do_command "make really-clean"
 
     # figure out the apache tomcat dir name based on the rev of tomcat's 
     # tar file in the 'extra_downloads' dir and replace if needed. This 
