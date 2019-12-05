@@ -4,6 +4,7 @@ project(hyrax_git)
 set(CMAKE_CXX_STANDARD 14)
 
 include_directories(build/deps/include)
+include_directories(/usr/local/Cellar/openssl/1.0.2r/include/)
 
 include_directories(bes)
 include_directories(bes/cmdln)
@@ -502,11 +503,11 @@ add_executable(hyrax_git
         bes/functions/geo-functions/wcs_error.h
         bes/functions/geo-functions/wcsUtil.cpp
         bes/functions/geo-functions/wcsUtil.h
-        bes/functions/stare/stareMapping.cc
 
-        bes/functions/stare/StareIterateFunction.cc
-        bes/functions/stare/StareIterateFunction.h
-        bes/functions/stare/unit-tests/StareFunctionsTest.cc
+        # bes/functions/stare/build_sidecar.cc
+        # bes/functions/stare/StareFunctions.cc
+        # bes/functions/stare/StareFunctions.h
+        # bes/functions/stare/unit-tests/StareFunctionsTest.cc
 
         bes/functions/tests/gse-test.cc
         bes/functions/unit-tests/BBoxCombFunctionTest.cc
@@ -733,10 +734,6 @@ add_executable(hyrax_git
         bes/modules/debug_functions/unit-tests/test_config.h
         bes/modules/debug_functions/DebugFunctions.cc
         bes/modules/debug_functions/DebugFunctions.h
-        bes/modules/dmrpp_module/data/old/curl_multi_test.c
-        bes/modules/dmrpp_module/data/old/endian_convert.cc
-        bes/modules/dmrpp_module/data/old/keepalive2.cc
-        bes/modules/dmrpp_module/data/old/multiball.cc
         bes/modules/dmrpp_module/unit-tests/unused/DmrppChunkedReadTest.cc
         bes/modules/dmrpp_module/unit-tests/unused/DmrppHttpReadTest.cc
         bes/modules/dmrpp_module/unit-tests/unused/DmrppTypeReadTest.cc
@@ -746,16 +743,11 @@ add_executable(hyrax_git
         bes/modules/dmrpp_module/unit-tests/DmrppMetadataStoreTest.cc
         bes/modules/dmrpp_module/unit-tests/DmrppParserTest.cc
         bes/modules/dmrpp_module/unit-tests/test_config.h
-        bes/modules/dmrpp_module/unused/DmrppGrid.cc
-        bes/modules/dmrpp_module/unused/DmrppGrid.h
-        bes/modules/dmrpp_module/unused/DmrppSequence.cc
-        bes/modules/dmrpp_module/unused/DmrppSequence.h
-        bes/modules/dmrpp_module/unused/DmrppUtil.cc
-        bes/modules/dmrpp_module/unused/DmrppUtil.h
-        bes/modules/dmrpp_module/unused/Odometer.cc
-        bes/modules/dmrpp_module/unused/Odometer.h
-        bes/modules/dmrpp_module/unused/unused_chunk_code.cc
         bes/modules/dmrpp_module/build_dmrpp.cc
+        bes/modules/dmrpp_module/awsv4.cc
+        bes/modules/dmrpp_module/awsv4.h
+        bes/modules/dmrpp_module/url.cc
+        bes/modules/dmrpp_module/url.h
         bes/modules/dmrpp_module/Chunk.cc
         bes/modules/dmrpp_module/Chunk.h
         bes/modules/dmrpp_module/CurlHandlePool.cc
