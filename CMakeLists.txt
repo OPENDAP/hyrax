@@ -1,10 +1,21 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.15)
 project(hyrax_git)
 
-set(CMAKE_CXX_STANDARD 14)
+# Edited. set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 11)
 
+# Added.
+include_directories(/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libxml2)
+include_directories(/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/curl)
+
+# The Hyrax dependencies directories
+include_directories(build/include/libdap)
+include_directories(build/include/bes)
 include_directories(build/deps/include)
 include_directories(/usr/local/Cellar/openssl/1.0.2r/include/)
+
+# Added for the sql handler and its use of unixODBC
+include_directories(/usr/local/include)
 
 include_directories(bes)
 include_directories(bes/cmdln)
@@ -14,11 +25,10 @@ include_directories(bes/dap/unit-tests)
 include_directories(bes/dap/unused)
 include_directories(bes/dapreader)
 include_directories(bes/dispatch)
-include_directories(bes/dispatch/bes/old)
-include_directories(bes/dispatch/old)
-include_directories(bes/dispatch/old/unit_tests_old)
+
 include_directories(bes/dispatch/PicoSHA2)
 include_directories(bes/dispatch/tests)
+
 include_directories(bes/dispatch/unit-tests)
 include_directories(bes/functions)
 include_directories(bes/functions/geo-functions)
@@ -28,11 +38,16 @@ include_directories(bes/functions/unit-tests)
 include_directories(bes/functions/stare)
 include_directories(bes/functions/stare/unit-tests)
 
+include_directories(bes/functions/unit-tests)
+include_directories(bes/functions/unused_ArrayGeoConstraint_code)
+
 include_directories(bes/hello_world)
 include_directories(bes/hello_world/not_used)
 include_directories(bes/modules)
 include_directories(bes/modules/asciival)
+
 include_directories(bes/modules/asciival/unit-tests)
+
 include_directories(bes/modules/cmr_module)
 include_directories(bes/modules/cmr_module/rapidjson)
 include_directories(bes/modules/cmr_module/rapidjson/error)
@@ -42,9 +57,11 @@ include_directories(bes/modules/cmr_module/unit-tests)
 include_directories(bes/modules/cmr_module/unused)
 include_directories(bes/modules/csv_handler)
 include_directories(bes/modules/debug_functions)
+
 include_directories(bes/modules/debug_functions/unit-tests)
 include_directories(bes/modules/dmrpp_module)
 include_directories(bes/modules/dmrpp_module/unit-tests)
+
 include_directories(bes/modules/dmrpp_module/unused)
 include_directories(bes/modules/fileout_covjson)
 include_directories(bes/modules/fileout_covjson/unit-tests)
@@ -85,15 +102,17 @@ include_directories(bes/modules/sql_handler/templates)
 include_directories(bes/modules/sql_handler/unixODBC)
 include_directories(bes/modules/sql_handler/utils)
 include_directories(bes/modules/ugrid_functions)
+
 include_directories(bes/modules/ugrid_functions/unit-tests)
 include_directories(bes/modules/usage)
-include_directories(bes/modules/usage/old/ais-tool)
+
 include_directories(bes/modules/w10n_handler)
 include_directories(bes/modules/w10n_handler/unit-tests)
 include_directories(bes/modules/www-interface)
-include_directories(bes/modules/www-interface/not_used)
+
 include_directories(bes/modules/xml_data_handler)
 include_directories(bes/modules/xml_data_handler/unit-tests)
+
 include_directories(bes/ppt)
 include_directories(bes/ppt/old)
 include_directories(bes/ppt/unit-tests)
@@ -115,6 +134,17 @@ include_directories(build/include)
 include_directories(build/include/bes)
 include_directories(build/include/libdap)
 include_directories(build/include/libdap/test)
+
+include_directories(build/include/sql)
+include_directories(build/include/sql/action)
+include_directories(build/include/sql/connector)
+include_directories(build/include/sql/container)
+include_directories(build/include/sql/DEM)
+include_directories(build/include/sql/DTM)
+include_directories(build/include/sql/handler)
+include_directories(build/include/sql/handler/connector)
+include_directories(build/include/sql/utils)
+
 include_directories(libdap4)
 include_directories(libdap4/conf)
 include_directories(libdap4/d4_ce)
@@ -124,7 +154,7 @@ include_directories(libdap4/gl)
 include_directories(libdap4/gl/glthread)
 include_directories(libdap4/gl/sys)
 include_directories(libdap4/GNU)
-include_directories(libdap4/old)
+
 include_directories(libdap4/tests)
 include_directories(libdap4/unit-tests)
 include_directories(libdap4/VCPP)
@@ -2575,3 +2605,4 @@ add_executable(hyrax_git
         libdap4/XDRUtils.h
         libdap4/XMLWriter.cc
         libdap4/XMLWriter.h)
+
