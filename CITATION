@@ -1,0 +1,18 @@
+
+How to cite Hyrax
+
+Use the following text within your publications to cite Hyrax
+
+For data use: "Data were accessed using the Hyrax data server, version
+<ver>, running at <locaction>."
+
+For providing data: "Data were made avalable using the HYrax data
+server, version <ver>."
+
+To find the DOI for the current version of Hyrax (or recent previous
+versions), look on the GitHUb pages for the OLFS and note the DOI for
+that software. This is the DO for the whole server and includes the
+DOI for the backend server and DAP library distributions.
+
+The OLFS GitHub page is https://github.com/OPENDAP/olfs.
+
