@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bes:request xmlns:bes="http://xml.opendap.org/ns/bes/1.0#" reqID="[thread:http-nio-8080-exec-6-24][bes_client:/-1]">
+  <bes:setContext name="bes_timeout">300</bes:setContext>
+  <bes:setContext name="cf_history_entry">2020-06-15 20:08:12 GMT Hyrax-bes_stare-3_90b296f5437cc4ab37bb01ae9f27b5d5666a250b http://localhost:8080/opendap/data/nsidc/ATL08_20181016124656_02730110_002_01.h5.dap.nc4?dap4.ce=gt1r_land_segments_ph_ndx_beg%5B0:1:217%5D;gt2r_land_segments_ph_ndx_beg%5B0:1:77%5D;gt1l_land_segments_ph_ndx_beg%5B0:1:133%5D;gt3r_land_segments_ph_ndx_beg%5B0:1:24%5D</bes:setContext>
+  <bes:setContext name="dap_explicit_containers">no</bes:setContext>
+  <bes:setContext name="errors">xml</bes:setContext>
+  <bes:setContext name="olfsLog">0:0:0:0:0:0:0:1|&amp;|Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Safari/605.1.15|&amp;|-|&amp;|-|&amp;|1592251692634|&amp;|8|&amp;|HTTP-GET|&amp;|/opendap/hyrax/data/nsidc/ATL08_20181016124656_02730110_002_01.h5.dap.nc4|&amp;|dap4.ce=gt1r_land_segments_ph_ndx_beg%5B0:1:217%5D;gt2r_land_segments_ph_ndx_beg%5B0:1:77%5D;gt1l_land_segments_ph_ndx_beg%5B0:1:133%5D;gt3r_land_segments_ph_ndx_beg%5B0:1:24%5D</bes:setContext>
+  <bes:setContext name="max_response_size">0</bes:setContext>
+  <bes:setContext name="uid">not_logged_in</bes:setContext>
+  <bes:setContainer name="catalogContainer" space="catalog">/data/nsidc/ATL08_20181016124656_02730110_002_01.h5</bes:setContainer>
+  <bes:define name="d1" space="default">
+    <bes:container name="catalogContainer">
+      <bes:dap4constraint>gt1r_land_segments_ph_ndx_beg[0:1:217];gt2r_land_segments_ph_ndx_beg[0:1:77];gt1l_land_segments_ph_ndx_beg[0:1:133];gt3r_land_segments_ph_ndx_beg[0:1:24]</bes:dap4constraint>
+    </bes:container>
+  </bes:define>
+  <bes:get type="dap" definition="d1" returnAs="netcdf-4" />
+</bes:request>
