@@ -1,0 +1,7 @@
+
+Set up a conda environment that includes:
+netCDF4 pip numpy matplotlib cartopy basemap requests xarray dask ipykernel
+
+Use pip to install: pydap
+
+You might not need to use pip for pydap and might not need ipykernel
