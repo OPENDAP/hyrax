@@ -28,12 +28,11 @@ password = getpass.getpass("URS Password: ")
 # Hack, pass the first URL to get the session setup
 session = setup_session(username, password, check_url=od_files[0])
 
-while True:
-    cloud_data = xa.open_mfdataset(od_files, engine='pydap', parallel=True, combine='by_coords',
-                                   backend_kwargs={'session': session})
+cloud_data = xa.open_mfdataset(od_files, engine='pydap', parallel=True, combine='by_coords',
+                               backend_kwargs={'session': session})
 
-    cloud_ws = cloud_data['wind_speed'].sel(latitude=slice(-53.99, -14), longitude=slice(140, 170))
+cloud_ws = cloud_data['wind_speed'].sel(latitude=slice(-53.99, -14), longitude=slice(140, 170))
 
-    cloud_ws_mean = cloud_ws.mean(dim=['latitude', 'longitude'])
-    cloud_ws_mean.plot.line()
+cloud_ws_mean = cloud_ws.mean(dim=['latitude', 'longitude'])
+cloud_ws_mean.plot.line()
 
