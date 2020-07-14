@@ -23,3 +23,12 @@ fi
 export LD_LIBRARY_PATH=$prefix/lib:$prefix/deps/lib
 
 export TESTSUITEFLAGS=--jobs=9
+
+
+tc=`ls -d -1 $prefix/apache-tomcat-* 2> /dev/null | grep -v '.*\.tar\.gz'`
+if test -n "$tc"
+then
+    export TOMCAT_DIR=$tc
+    export CATALINA_HOME=$TOMCAT_DIR
+fi
+
