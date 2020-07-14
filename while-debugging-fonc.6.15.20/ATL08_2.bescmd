@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<request reqID="some_unique_value" >
+    <setContext name="dap_format">dap2</setContext>
+    <setContainer name="c" space="catalog">/data/nsidc/ATL08_20181016124656_02730110_002_01.h5</setContainer>
+    <define name="d">
+    <container name="c">
+    <dap4constraint>gt1r_land_segments_ph_ndx_beg[0:1:217];gt2r_land_segments_ph_ndx_beg[0:1:77];gt1l_land_segments_ph_ndx_beg[0:1:133];gt3r_land_segments_ph_ndx_beg[0:1:24]</dap4constraint>
+    </container>
+    </define>
+    <get type="dap" definition="d" returnAs="netcdf-4"/>
+</request>
