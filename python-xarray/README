@@ -2,6 +2,17 @@
 Set up a conda environment that includes:
 netCDF4 pip numpy matplotlib cartopy basemap requests xarray dask ipykernel
 
-Use pip to install: pydap
+After installing Anaconda's free version, use
 
-You might not need to use pip for pydap and might not need ipykernel
+    conda create --name opendap pip numpy matplotlib cartopy basemap requests xarray dask ipykernel
+
+That makes an 'opendap' environment and loads the packages pip, ..., ipykernel into
+the environment. Now switch to the enviroment
+
+    conda activate opendap
+
+Use pip to install pydap
+
+    pip install pydap
+
+NB: You might not need to use pip for pydap and might not need ipykernel
