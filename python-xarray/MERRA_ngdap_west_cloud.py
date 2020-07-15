@@ -1,4 +1,8 @@
 
+# to run this in a bare environment, set up the environment thusly:
+# conda install xarray dask requests
+# pip install pydap
+
 import xarray as xa
 
 # Get the granule names

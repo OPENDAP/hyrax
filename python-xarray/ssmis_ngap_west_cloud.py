@@ -3,8 +3,8 @@ import xarray as xa
 import sys
 
 # Get the granule names
-from ssmis_granules_ghrc import f16_ssmis_100
-from ssmis_granules_ghrc import base_url
+from ssmis_granules_opendap import f16_ssmis_100
+from ssmis_granules_opendap import base_url
 
 # Allows us to visualize the dask progress for parallel operations
 from dask.diagnostics import ProgressBar
@@ -31,3 +31,4 @@ try:
 
 except:
     print("Error:", sys.exc_info()[0])
+

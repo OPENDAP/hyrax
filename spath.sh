@@ -22,25 +22,17 @@ fi
 # We do need this for icu-3.6 on AWS EC2 instances. jhrg 3/5/13
 export LD_LIBRARY_PATH=$prefix/lib:$prefix/deps/lib
 
-<<<<<<< HEAD
 export TESTSUITEFLAGS=--jobs=9
 
-
-=======
 # I removed the apache tomcat dist from dependencies/downloads 
 # because it was causing bloat. Assume that a typical nightly build
 # has both the tar.gz and directory for tomcat. jhrg 4/28/14
 #
 # Added it back. The new tomcat 7 scripts don't require that 
 # CATALINA_HOME is set, so this is really for TC 6 compat. jhrg 12/30/14
->>>>>>> e8dbfbecac83424805f06c58d88d00f31c63b261
 tc=`ls -d -1 $prefix/apache-tomcat-* 2> /dev/null | grep -v '.*\.tar\.gz'`
 if test -n "$tc"
 then
     export TOMCAT_DIR=$tc
     export CATALINA_HOME=$TOMCAT_DIR
 fi
-<<<<<<< HEAD
-
-=======
->>>>>>> e8dbfbecac83424805f06c58d88d00f31c63b261

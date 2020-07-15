@@ -1,3 +1,6 @@
+
+base_url = 'http://ngap-west.opendap.org/opendap/ngap/providers/GHRC_CLOUD/collections/RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/'
+
 f16_ssmis_100 = ["f16_ssmis_20031026v7.nc",
 "f16_ssmis_20031027v7.nc",
 "f16_ssmis_20031028v7.nc",
@@ -86,8 +89,9 @@ f16_ssmis_100 = ["f16_ssmis_20031026v7.nc",
 "f16_ssmis_20040122v7.nc",
 "f16_ssmis_20040123v7.nc",
 "f16_ssmis_20040124v7.nc",
-"f16_ssmis_20040125v7.nc",
-"f16_ssmis_20040126v7.nc",
+"f16_ssmis_20040125v7.nc"]
+
+f16_ssmis_rest = ["f16_ssmis_20040126v7.nc",
 "f16_ssmis_20040127v7.nc",
 "f16_ssmis_20040128v7.nc",
 "f16_ssmis_20040129v7.nc",
@@ -97,8 +101,8 @@ f16_ssmis_100 = ["f16_ssmis_20031026v7.nc",
 "f16_ssmis_20040202v7.nc",
 "f16_ssmis_20040203v7.nc",
 "f16_ssmis_20040204v7.nc",
-"f16_ssmis_20040205v7.nc"]
-f16_ssmis_rest = ["f16_ssmis_20040206v7.nc",
+"f16_ssmis_20040205v7.nc",
+"f16_ssmis_20040206v7.nc",
 "f16_ssmis_20040207v7.nc",
 "f16_ssmis_20040208v7.nc",
 "f16_ssmis_20040209v7.nc",
