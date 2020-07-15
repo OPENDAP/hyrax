@@ -701,8 +701,8 @@ add_executable(hyrax_git
 		bes/modules/cmr_module/CmrNames.h
 		bes/modules/cmr_module/CmrUtils.cc
 		bes/modules/cmr_module/CmrUtils.h
-		bes/modules/cmr_module/curl_utils.cc
-		bes/modules/cmr_module/curl_utils.h
+		bes/modules/cmr_module/curl.cc
+		bes/modules/cmr_module/curl.h
 		bes/modules/cmr_module/Granule.cc
 		bes/modules/cmr_module/Granule.h
 		bes/modules/cmr_module/RemoteHttpResource.cc
@@ -1060,8 +1060,8 @@ add_executable(hyrax_git
 		bes/modules/freeform_handler/util_ff.h
 		bes/modules/gateway_module/unused/GatewayRequest.cc
 		bes/modules/gateway_module/unused/GatewayRequest.h
-		bes/modules/gateway_module/curl_utils.cc
-		bes/modules/gateway_module/curl_utils.h
+		bes/modules/gateway_module/curl.cc
+		bes/modules/gateway_module/curl.h
 		bes/modules/gateway_module/GatewayCache.cc
 		bes/modules/gateway_module/GatewayCache.h
 		bes/modules/gateway_module/GatewayContainer.cc
@@ -1528,8 +1528,8 @@ add_executable(hyrax_git
 		bes/modules/httpd_catalog_module/unit-tests/HttpdDirScraperTest.cc
 		bes/modules/httpd_catalog_module/unit-tests/RemoteHttpResourceTest.cc
 		bes/modules/httpd_catalog_module/unit-tests/test_config.h
-		bes/modules/httpd_catalog_module/curl_utils.cc
-		bes/modules/httpd_catalog_module/curl_utils.h
+		bes/modules/httpd_catalog_module/curl.cc
+		bes/modules/httpd_catalog_module/curl.h
 		bes/modules/httpd_catalog_module/HttpdCatalog.cc
 		bes/modules/httpd_catalog_module/HttpdCatalog.h
 		bes/modules/httpd_catalog_module/HttpdCatalogContainer.cc

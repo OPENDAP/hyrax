@@ -1,0 +1,14 @@
+#!/bin/bash
+#export JAVA_OPTS="-Xms256m -Xmx2000m"
+export JAVA_OPTS="-Xms256m -Xmx2000m"
+echo ""
+echo "Removing tomcat log files..."
+rm $CATALINA_HOME/logs/*  
+echo ""
+echo "Starting tomcat..."
+$CATALINA_HOME/bin/startup.sh &
+sleep 1
+echo ""
+echo ""
+echo "Tailing catalina.log..."
+tail -f $CATALINA_HOME/logs/catalina.out
