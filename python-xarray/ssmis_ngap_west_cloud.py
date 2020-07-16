@@ -5,6 +5,19 @@ import sys
 # Get the granule names
 from ssmis_granules import f16_ssmis_100
 
+import os
+import glob
+
+def clean_cache():
+    files = glob.glob('/tmp/hyrax_http/*')
+
+    for f in files:
+        try:
+            # f.unlink()
+            os.unlink(f)
+        except OSError as e:
+            print("Error: %s : %s" % (f, e.strerror))
+
 base_url=""
 suffix=""
 
@@ -73,7 +86,7 @@ def get_the_things():
 
     print("   first: ",od_files[0], '\n', "   last: ",od_files[-1])
     try:
-        cloud_data = xa.open_mfdataset(od_files, engine='pydap', parallel=True, combine='by_coords')
+        cloud_data = xa.open_mfdataset(od_files, engine='pydap', parallel=False, combine='by_coords')
 
         cloud_ws = cloud_data['wind_speed'].sel(latitude=slice(-53.99, -14), longitude=slice(140, 170))
 
@@ -84,20 +97,24 @@ def get_the_things():
     except:
         print("Error:", sys.exc_info()[0])
 
-print("###########################################")
-s3_bucket()
-get_the_things()
+#print("###########################################")
+#s3_bucket()
+#clean_cache()
+#get_the_things()
 
-print("###########################################")
-granules()
-get_the_things()
+#print("###########################################")
+#granules()
+#clean_cache()
+#get_the_things()
 
-print("###########################################")
-ngap_service()
-get_the_things()
+#print("###########################################")
+#ngap_service()
+#clean_cache()
+#get_the_things()
 
 print("###########################################")
 tea()
+clean_cache()
 get_the_things()
 
 
