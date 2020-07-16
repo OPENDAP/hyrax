@@ -65,6 +65,8 @@ def granules():
 
 
 def get_the_things():
+    import webob
+
     global base_url
     global suffix
 
@@ -93,27 +95,49 @@ def get_the_things():
 
         print(cloud_ws_mean)
 
+    except webob.exc.HTTPError as err:
+        # See https://docs.pylonsproject.org/projects/webob/en/stable/api/exceptions.html#
+        print("HTTPError: code: ", err.code, ": ", err.explanation);
+        print("Error: ", sys.exc_info()[0])
     except:
-        print("Error:", sys.exc_info()[0])
+        print("Error: ", sys.exc_info()[0])
 
-#print("###########################################")
-#s3_bucket()
-#clean_cache()
-#get_the_things()
+def main():
+    import getopt
 
-#print("###########################################")
-#granules()
-#clean_cache()
-#get_the_things()
+    try:
+        # see https://docs.python.org/3.1/library/getopt.htm
+        optlist, args = getopt.getopt(sys.argv[1:], 'sgntah')
+    except:
+        # print help information and exit:
+        print(err) # will print something like "option -a not recognized"
+        print("Options -s s3, -g granules, -n ngap api, -t tea, -a all of s, g, n and t.")
+        sys.exit(2)
 
-#print("###########################################")
-#ngap_service()
-#clean_cache()
-#get_the_things()
+    for o, a in optlist:
+        if o in ("-s", "-a"):
+            print("###########################################")
+            s3_bucket()
+            clean_cache()
+            get_the_things()
 
-print("###########################################")
-tea()
-clean_cache()
-get_the_things()
+        if o in ("-g", "-a"):
+            print("###########################################")
+            granules()
+            clean_cache()
+            get_the_things()
 
+        if o in ("-t", "-a"):
+            print("###########################################")
+            tea()
+            clean_cache()
+            get_the_things()
 
+        if o in ("-n", "-a"):
+            print("###########################################")
+            ngap_service()
+            clean_cache()
+            get_the_things()
+
+if __name__ == "__main__":
+    main()
