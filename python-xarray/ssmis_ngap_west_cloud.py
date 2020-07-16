@@ -46,8 +46,7 @@ def tea():
     global suffix
 
     # This is the base URL for the collection of dmr++ files whose dmrpp:href urls
-    # point to the TEA endpoint for PROD. THis is Not the NGAP service and will
-    # not cache the signed S3 request URLs returned by TEA.
+    # point to the TEA endpoint for PROD. URLs from TEA are cached.
     tea_prod_base = "http://ngap-west.opendap.org/opendap/ssmis/ngap-prod/"
     base_url = tea_prod_base
     suffix=".dmrpp"
@@ -86,7 +85,7 @@ def get_the_things():
 
     print("   first: ",od_files[0], '\n', "   last: ",od_files[-1])
     try:
-        cloud_data = xa.open_mfdataset(od_files, engine='pydap', parallel=False, combine='by_coords')
+        cloud_data = xa.open_mfdataset(od_files, engine='pydap', parallel=True, combine='by_coords')
 
         cloud_ws = cloud_data['wind_speed'].sel(latitude=slice(-53.99, -14), longitude=slice(140, 170))
 
