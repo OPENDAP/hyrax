@@ -137,6 +137,9 @@ def main():
         sys.exit(2)
 
     for o, a in optlist:
+        if o in ("-h", "--help"):
+            print("Options -d <datafile> -s s3, -g granules, -n ngap api, -t tea, -a all of s, g, n and t.")
+
         if o in ("-d",):
             print("Datafile name: ", a)
             f = open(a, "a")
@@ -173,7 +176,8 @@ def main():
             clean_cache()
             get_the_things()
 
-    f.close()
+    if f:
+        f.close()
 
 
 if __name__ == "__main__":
