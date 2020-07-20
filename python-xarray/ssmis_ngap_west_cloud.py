@@ -97,7 +97,7 @@ def get_the_things():
 
     except webob.exc.HTTPError as err:
         # See https://docs.pylonsproject.org/projects/webob/en/stable/api/exceptions.html#
-        print("HTTPError: code: ", err.code, ": ", err.explanation);
+        print("HTTPError: code: ", err.code, ": ", err.detail);
         print("Error: ", sys.exc_info()[0])
     except:
         print("Error: ", sys.exc_info()[0])
