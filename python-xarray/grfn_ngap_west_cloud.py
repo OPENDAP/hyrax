@@ -4,6 +4,7 @@ import sys
 
 # Get the granule names
 from ssmis_granules import f16_ssmis_100
+from grfn_granules import grfn_gunw_100
 
 import os
 import glob
