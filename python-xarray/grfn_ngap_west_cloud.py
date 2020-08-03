@@ -3,7 +3,7 @@ import xarray as xa
 import sys
 
 # Get the granule names
-from ssmis_granules import f16_ssmis_100
+# from ssmis_granules import f16_ssmis_100
 from grfn_granules import grfn_gunw_100
 
 import os
@@ -91,7 +91,7 @@ def get_the_things():
 
     od_files = []
 
-    for g in f16_ssmis_100:
+    for g in grfn_gunw_100:
         od_files.append(base_url + g + suffix)
 
     print("   first: ", od_files[0], '\n', "   last: ", od_files[-1])
