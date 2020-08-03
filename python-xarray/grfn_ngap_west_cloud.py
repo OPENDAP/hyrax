@@ -100,7 +100,7 @@ def get_the_things():
 
         cloud_data = xa.open_mfdataset(od_files, engine='pydap', parallel=True, combine='by_coords')
 
-        cloud_ws = cloud_data['science_grids_data_amplitude'].sel(latitude=slice(-53.99, -14), longitude=slice(140, 170))
+        cloud_ws = cloud_data['science_grids_data_amplitude']
 
         cloud_ws_mean = cloud_ws.mean(dim=['latitude', 'longitude'])
 
