@@ -33,7 +33,7 @@ def ngap_service():
                         'RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/'
     base_url = ngap_service_base
     suffix = ""
-    print("Using NGAP Service")
+    print("Using NGAP Service: ", base_url)
 
 
 def s3_bucket():
@@ -45,7 +45,7 @@ def s3_bucket():
     s3_bucket_base = "http://ngap-west.opendap.org/opendap/asf_grfn/s3/"
     base_url = s3_bucket_base
     suffix=".dmrpp"
-    print("Using S3 Bucket: ${base_url}")
+    print("Using S3 Bucket: ", base_url)
 
 
 def tea():
@@ -57,7 +57,7 @@ def tea():
     tea_prod_base = "http://ngap-west.opendap.org/opendap/asf_grfn/tea/"
     base_url = tea_prod_base
     suffix=".dmrpp"
-    print("Using TEA: ${base_url}")
+    print("Using TEA: ", base_url)
 
 
 def granules():
@@ -68,7 +68,7 @@ def granules():
     granule_files_base = "http://ngap-west.opendap.org/opendap/asf_grfn/granules/"
     base_url = granule_files_base
     suffix=""
-    print("Using Granules: ${base_url}")
+    print("Using Granules: ", base_url)
 
 
 def get_the_things():
