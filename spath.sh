@@ -20,7 +20,8 @@ fi
 # on linux, those directories also need to be on LD_LIBRARY_PATH.
 # I'm not sure this is true... jhrg 1/2/13
 # We do need this for icu-3.6 on AWS EC2 instances. jhrg 3/5/13
-export LD_LIBRARY_PATH=$prefix/lib:$prefix/deps/lib
+#export LD_LIBRARY_PATH=$prefix/lib:$prefix/deps/lib
+export LD_LIBRARY_PATH=$prefix/deps/lib
 
 export TESTSUITEFLAGS=--jobs=9
 
