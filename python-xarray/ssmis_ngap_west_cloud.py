@@ -47,16 +47,27 @@ def s3_bucket():
     print("Using S3 Bucket ngap-ssmis-west")
 
 
-def tea():
+def tea_prod():
     global base_url
     global suffix
 
     # This is the base URL for the collection of dmr++ files whose dmrpp:href urls
     # point to the TEA endpoint for PROD. URLs from TEA are cached.
-    tea_prod_base = "http://ngap-west.opendap.org/opendap/ssmis/ngap-prod/"
+    tea_prod_base = "http://ngap-west.opendap.org/opendap/ssmis/tea-prod/"
     base_url = tea_prod_base
     suffix=".dmrpp"
-    print("Using TEA")
+    print("Using TEA in PROD")
+
+def tea_uat():
+    global base_url
+    global suffix
+
+    # This is the base URL for the collection of dmr++ files whose dmrpp:href urls
+    # point to the TEA endpoint for PROD. URLs from TEA are cached.
+    tea_prod_base = "http://ngap-west.opendap.org/opendap/ssmis/tea-uat/"
+    base_url = tea_prod_base
+    suffix=".dmrpp"
+    print("Using TEA in UAT")
 
 
 def granules():
@@ -130,7 +141,7 @@ def main():
 
     try:
         # see https://docs.python.org/3.1/library/getopt.htm
-        optlist, args = getopt.getopt(sys.argv[1:], 'sgntahd:')
+        optlist, args = getopt.getopt(sys.argv[1:], 'sgntahud:')
     except:
         # print help information and exit:
         print("Options -d <datafile> -s s3, -g granules, -n ngap api, -t tea, -a all of s, g, n and t.")
@@ -163,8 +174,16 @@ def main():
         if o in ("-t", "-a"):
             print("###########################################")
             if f:
-                f.write("tea,")
-            tea()
+                f.write("tea_prod,")
+            tea_prod()
+            clean_cache()
+            get_the_things()
+
+        if o in ("-u", "-a"):
+            print("###########################################")
+            if f:
+                f.write("tea_uat,")
+            tea_uat()
             clean_cache()
             get_the_things()
 
