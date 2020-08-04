@@ -98,11 +98,15 @@ def get_the_things():
     try:
         tic = time.perf_counter()
 
+        print("Calling xa.open_mfdataset()");
         cloud_data = xa.open_mfdataset(od_files, engine='pydap', parallel=True, combine='by_coords')
+        print(cloud_data)
 
-        cloud_ws = cloud_data['science_grids_data_amplitude'].sel(latitude=slice(-53.99, -14), longitude=slice(140, 170))
+        print("Calling cloud_data[] subset");
+        cloud_ws = cloud_data['science_grids_data_amplitude'] #.sel(latitude=slice(-53.99, -14), longitude=slice(140, 170))
         print(cloud_ws)
 
+        #print("Calling cloud_ws.mean()");
         #cloud_ws_mean = cloud_ws.mean(dim=['science_grids_data_latitude', 'science_grids_data_longitude'])
 
         #print(cloud_ws_mean)
