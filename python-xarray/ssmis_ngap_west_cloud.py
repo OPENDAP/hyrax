@@ -157,7 +157,7 @@ def main():
             print(usage)
 
         if o == "-i":
-            runId="\n"+a;
+            runId=a;
 
         if o == "-d":
             print("Datafile name: ", a)
