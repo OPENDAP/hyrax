@@ -137,11 +137,13 @@ def get_the_things():
 def main():
     import getopt
 
+    hr = "\n---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  "
+    runId=""
     global f        # results file
 
     try:
         # see https://docs.python.org/3.1/library/getopt.htm
-        optlist, args = getopt.getopt(sys.argv[1:], 'sgntahud:')
+        optlist, args = getopt.getopt(sys.argv[1:], 'sgntahud:c:')
     except:
         # print help information and exit:
         print("Options -d <datafile> -s s3, -g granules, -n ngap api, -t tea, -a all of s, g, n and t.")
@@ -151,12 +153,16 @@ def main():
         if o in ("-h", "--help"):
             print("Options -d <datafile> -s s3, -g granules, -n ngap api, -t tea, -a all of s, g, n and t.")
 
+        if o in ("-c",):
+            print("RunId: ", a)
+            runId=a;
+
         if o in ("-d",):
             print("Datafile name: ", a)
             f = open(a, "a")
 
         if o in ("-s", "-a"):
-            print("###########################################")
+            print(runId + hr)
             if f:
                 f.write("s3,")
             s3_bucket()
@@ -164,7 +170,7 @@ def main():
             get_the_things()
 
         if o in ("-g", "-a"):
-            print("###########################################")
+            print(runId + hr)
             if f:
                 f.write("granule,")
             granules()
@@ -172,7 +178,7 @@ def main():
             get_the_things()
 
         if o in ("-t", "-a"):
-            print("###########################################")
+            print(runId + hr)
             if f:
                 f.write("tea_prod,")
             tea_prod()
@@ -180,7 +186,7 @@ def main():
             get_the_things()
 
         if o in ("-u", "-a"):
-            print("###########################################")
+            print(runId + hr)
             if f:
                 f.write("tea_uat,")
             tea_uat()
@@ -188,7 +194,7 @@ def main():
             get_the_things()
 
         if o in ("-n", "-a"):
-            print("###########################################")
+            print(runId + hr)
             if f:
                 f.write("ngap,")
             ngap_service()
