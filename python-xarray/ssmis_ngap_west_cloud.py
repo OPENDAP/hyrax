@@ -138,7 +138,7 @@ def main():
     import getopt
 
     hr = "\n---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  "
-    runId=""
+    runId="id_not_set "
     global f        # results file
 
     usage="Options -i <run_id> -d <datafile> -s s3, -g granules, -n ngap api, -t tea, -a all of s, g, n and t."
@@ -156,7 +156,7 @@ def main():
         if o in ("-h", "--help"):
             print(usage)
 
-        if o in ("-c"):
+        if o in ("-i"):
             print("RunId: ", a)
             runId=a;
 
