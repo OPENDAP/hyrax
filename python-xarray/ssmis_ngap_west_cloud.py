@@ -164,7 +164,8 @@ def main():
             f = open(a, "a")
 
         if o in ("-s", "-a"):
-            print(runId, hr)
+            print(hr)
+            print("Run ID:", runId)
             if f:
                 f.write("s3,")
             s3_bucket()
@@ -172,7 +173,8 @@ def main():
             get_the_things()
 
         if o in ("-g", "-a"):
-            print(runId, hr)
+            print(hr)
+            print("Run ID:", runId)
             if f:
                 f.write("granule,")
             granules()
@@ -180,7 +182,8 @@ def main():
             get_the_things()
 
         if o in ("-t", "-a"):
-            print(runId, hr)
+            print(hr)
+            print("Run ID:", runId)
             if f:
                 f.write("tea_prod,")
             tea_prod()
@@ -188,7 +191,8 @@ def main():
             get_the_things()
 
         if o in ("-u", "-a"):
-            print(runId, hr)
+            print(hr)
+            print("Run ID:", runId)
             if f:
                 f.write("tea_uat,")
             tea_uat()
@@ -196,7 +200,8 @@ def main():
             get_the_things()
 
         if o in ("-n", "-a"):
-            print(runId, hr)
+            print(hr)
+            print("Run ID:", runId)
             if f:
                 f.write("ngap,")
             ngap_service()
