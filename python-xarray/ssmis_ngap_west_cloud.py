@@ -157,14 +157,14 @@ def main():
             print(usage)
 
         if o == "-i":
-            runId=a;
+            runId="\n"+a;
 
         if o == "-d":
             print("Datafile name: ", a)
             f = open(a, "a")
 
         if o in ("-s", "-a"):
-            print("\n",runId, hr)
+            print(runId, hr)
             if f:
                 f.write("s3,")
             s3_bucket()
@@ -172,7 +172,7 @@ def main():
             get_the_things()
 
         if o in ("-g", "-a"):
-            print("\n",runId, hr)
+            print(runId, hr)
             if f:
                 f.write("granule,")
             granules()
@@ -180,7 +180,7 @@ def main():
             get_the_things()
 
         if o in ("-t", "-a"):
-            print("\n",runId, hr)
+            print(runId, hr)
             if f:
                 f.write("tea_prod,")
             tea_prod()
@@ -188,7 +188,7 @@ def main():
             get_the_things()
 
         if o in ("-u", "-a"):
-            print("\n",runId, hr)
+            print(runId, hr)
             if f:
                 f.write("tea_uat,")
             tea_uat()
@@ -196,7 +196,7 @@ def main():
             get_the_things()
 
         if o in ("-n", "-a"):
-            print("\n",runId, hr)
+            print(runId, hr)
             if f:
                 f.write("ngap,")
             ngap_service()
