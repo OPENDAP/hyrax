@@ -156,11 +156,11 @@ def main():
         if o in ("-h", "--help"):
             print(usage)
 
-        if o in ("-i"):
+        if o == "-i":
             print("RunId: ", a)
             runId=a;
 
-        if o in ("-d"):
+        if o == "-d":
             print("Datafile name: ", a)
             f = open(a, "a")
 
