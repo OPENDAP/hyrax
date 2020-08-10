@@ -69,6 +69,17 @@ def tea_uat():
     suffix=".dmrpp"
     print("Using TEA in UAT")
 
+def tea_apigw():
+    global base_url
+    global suffix
+
+    # This is the base URL for the collection of dmr++ files whose dmrpp:href urls
+    # point to the TEA endpoint for PROD. URLs from TEA are cached.
+    tea_prod_base = "http://ngap-west.opendap.org/opendap/ssmis/tea-apigw/"
+    base_url = tea_prod_base
+    suffix=".dmrpp"
+    print("Using TEA in UAT")
+
 
 def granules():
     global base_url
@@ -141,7 +152,7 @@ def main():
     runId="id_not_set "
     global f        # results file
 
-    usage="Options -i <run_id> -d <datafile> -s s3, -g granules, -n ngap api, -t tea, -a all of s, g, n and t."
+    usage="Options -i <run_id> -d <datafile> -s s3, -g granules, -n ngap api, -t tea, -u tea-uat, -p tea-apigw -a all of s, g, n and t."
 
     try:
         # see https://docs.python.org/3.1/library/getopt.htm
@@ -196,6 +207,15 @@ def main():
             if f:
                 f.write("tea_uat,")
             tea_uat()
+            clean_cache()
+            get_the_things()
+
+        if o in ("-p", "-a"):
+            print(hr)
+            print("Run ID:", runId)
+            if f:
+                f.write("tea_apigw,")
+            tea_apigw()
             clean_cache()
             get_the_things()
 
