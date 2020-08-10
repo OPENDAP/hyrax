@@ -156,7 +156,7 @@ def main():
 
     try:
         # see https://docs.python.org/3.1/library/getopt.htm
-        optlist, args = getopt.getopt(sys.argv[1:], 'sgntahud:i:')
+        optlist, args = getopt.getopt(sys.argv[1:], 'sgntahupd:i:')
     except:
         # print help information and exit:
         print(usage)
