@@ -3,7 +3,7 @@
 rm -f xarray_results/tea_uat_xarray.log ;
 for i in {1..1000}; do
     id="pass-${i}-"`date "+%FT%T"`
-    python3 ssmis_ngap_west_cloud.py -i "${id}" -p 2>&1 | tee -a xarray_results/tea_uat_xarray.log ;
+    python3 ssmis_ngap_west_cloud.py -i "${id}" -u 2>&1 | tee -a xarray_results/tea_uat_xarray.log ;
 done
 
 
