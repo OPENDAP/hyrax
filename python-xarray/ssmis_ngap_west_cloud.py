@@ -78,7 +78,7 @@ def tea_apigw():
     tea_prod_base = "http://ngap-west.opendap.org/opendap/ssmis/tea-apigw/"
     base_url = tea_prod_base
     suffix=".dmrpp"
-    print("Using TEA in UAT")
+    print("Using TEA in API Gateway")
 
 
 def granules():
