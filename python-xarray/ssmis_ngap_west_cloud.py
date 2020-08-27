@@ -69,6 +69,17 @@ def tea_uat():
     suffix=".dmrpp"
     print("Using TEA in UAT")
 
+def tea_apigw():
+    global base_url
+    global suffix
+
+    # This is the base URL for the collection of dmr++ files whose dmrpp:href urls
+    # point to the TEA endpoint for PROD. URLs from TEA are cached.
+    tea_prod_base = "http://ngap-west.opendap.org/opendap/ssmis/tea-apigw/"
+    base_url = tea_prod_base
+    suffix=".dmrpp"
+    print("Using TEA in API Gateway")
+
 
 def granules():
     global base_url
@@ -137,26 +148,35 @@ def get_the_things():
 def main():
     import getopt
 
+    hr = "---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  "
+    runId="id_not_set "
     global f        # results file
+
+    usage="Options -i <run_id> -d <datafile> -s s3, -g granules, -n ngap api, -t tea, -u tea-uat, -p tea-apigw -a all of s, g, n and t."
 
     try:
         # see https://docs.python.org/3.1/library/getopt.htm
-        optlist, args = getopt.getopt(sys.argv[1:], 'sgntahud:')
+        optlist, args = getopt.getopt(sys.argv[1:], 'sgntahupd:i:')
     except:
         # print help information and exit:
-        print("Options -d <datafile> -s s3, -g granules, -n ngap api, -t tea, -a all of s, g, n and t.")
+        print(usage)
         sys.exit(2)
 
     for o, a in optlist:
-        if o in ("-h", "--help"):
-            print("Options -d <datafile> -s s3, -g granules, -n ngap api, -t tea, -a all of s, g, n and t.")
 
-        if o in ("-d",):
+        if o in ("-h", "--help"):
+            print(usage)
+
+        if o == "-i":
+            runId=a;
+
+        if o == "-d":
             print("Datafile name: ", a)
             f = open(a, "a")
 
         if o in ("-s", "-a"):
-            print("###########################################")
+            print(hr)
+            print("Run ID:", runId)
             if f:
                 f.write("s3,")
             s3_bucket()
@@ -164,7 +184,8 @@ def main():
             get_the_things()
 
         if o in ("-g", "-a"):
-            print("###########################################")
+            print(hr)
+            print("Run ID:", runId)
             if f:
                 f.write("granule,")
             granules()
@@ -172,7 +193,8 @@ def main():
             get_the_things()
 
         if o in ("-t", "-a"):
-            print("###########################################")
+            print(hr)
+            print("Run ID:", runId)
             if f:
                 f.write("tea_prod,")
             tea_prod()
@@ -180,15 +202,26 @@ def main():
             get_the_things()
 
         if o in ("-u", "-a"):
-            print("###########################################")
+            print(hr)
+            print("Run ID:", runId)
             if f:
                 f.write("tea_uat,")
             tea_uat()
             clean_cache()
             get_the_things()
 
+        if o in ("-p", "-a"):
+            print(hr)
+            print("Run ID:", runId)
+            if f:
+                f.write("tea_apigw,")
+            tea_apigw()
+            clean_cache()
+            get_the_things()
+
         if o in ("-n", "-a"):
-            print("###########################################")
+            print(hr)
+            print("Run ID:", runId)
             if f:
                 f.write("ngap,")
             ngap_service()
