@@ -24,6 +24,16 @@ base_url = ""
 suffix = ""
 f = False   # results output file
 
+def ngap_localhost():
+    global base_url
+    global suffix
+    # This is the base url for the NGAP service which is attached to prod.
+    ngap_service_base = 'http://localhost:8080/ngap/providers/GHRC_CLOUD/collections/' \
+                        'RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/'
+    base_url = ngap_service_base
+    suffix = ""
+    print("Using NGAP Service (localhost:8080)")
+
 def ngap_service_west():
     global base_url
     global suffix
@@ -166,7 +176,7 @@ def main():
 
     try:
         # see https://docs.python.org/3.1/library/getopt.htm
-        optlist, args = getopt.getopt(sys.argv[1:], 'msgntahupd:i:')
+        optlist, args = getopt.getopt(sys.argv[1:], 'mlsgntahupd:i:')
     except:
         # print help information and exit:
         print(usage)
@@ -199,6 +209,15 @@ def main():
             if f:
                 f.write("granule,")
             granules()
+            clean_cache()
+            get_the_things()
+
+        if o in ("-l", "-a"):
+            print(hr)
+            print("Run ID:", run_id)
+            if f:
+                f.write("ngap_localhost,")
+            ngap_localhost()
             clean_cache()
             get_the_things()
 
