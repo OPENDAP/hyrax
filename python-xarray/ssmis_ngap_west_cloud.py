@@ -162,7 +162,7 @@ def main():
     runId="id_not_set "
     global f        # results file
 
-    usage="Options -i <run_id> -d <datafile> -s s3, -g granules, -n ngap api, -t tea, -u tea-uat, -p tea-apigw -a all of s, g, n and t."
+    usage="Options -i <run_id> -d <datafile> -s s3, -g granules, -n ngap api (us-west-2), -m ngap api (UAT), -t tea, -u tea-uat, -p tea-apigw -a all of s, g, n and t."
 
     try:
         # see https://docs.python.org/3.1/library/getopt.htm
