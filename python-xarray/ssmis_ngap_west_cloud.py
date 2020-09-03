@@ -159,7 +159,7 @@ def main():
     import getopt
 
     hr = "---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  "
-    runId="id_not_set "
+    run_id="id_not_set "
     global f        # results file
 
     usage="Options -i <run_id> -d <datafile> -s s3, -g granules, -n ngap api (us-west-2), -m ngap api (UAT), -t tea, -u tea-uat, -p tea-apigw -a all of s, g, n and t."
@@ -178,7 +178,7 @@ def main():
             print(usage)
 
         if o == "-i":
-            runId=a;
+            run_id=a
 
         if o == "-d":
             print("Datafile name: ", a)
@@ -186,7 +186,7 @@ def main():
 
         if o in ("-s", "-a"):
             print(hr)
-            print("Run ID:", runId)
+            print("Run ID:", run_id)
             if f:
                 f.write("s3,")
             s3_bucket()
@@ -195,7 +195,7 @@ def main():
 
         if o in ("-g", "-a"):
             print(hr)
-            print("Run ID:", runId)
+            print("Run ID:", run_id)
             if f:
                 f.write("granule,")
             granules()
@@ -204,7 +204,7 @@ def main():
 
         if o in ("-t", "-a"):
             print(hr)
-            print("Run ID:", runId)
+            print("Run ID:", run_id)
             if f:
                 f.write("tea_prod,")
             tea_prod()
@@ -213,7 +213,7 @@ def main():
 
         if o in ("-u", "-a"):
             print(hr)
-            print("Run ID:", runId)
+            print("Run ID:", run_id)
             if f:
                 f.write("tea_uat,")
             tea_uat()
@@ -222,7 +222,7 @@ def main():
 
         if o in ("-p", "-a"):
             print(hr)
-            print("Run ID:", runId)
+            print("Run ID:", run_id)
             if f:
                 f.write("tea_apigw,")
             tea_apigw()
@@ -231,7 +231,7 @@ def main():
 
         if o in ("-n", "-a"):
             print(hr)
-            print("Run ID:", runId)
+            print("Run ID:", run_id)
             if f:
                 f.write("ngap_west,")
             ngap_service_west()
@@ -240,7 +240,7 @@ def main():
 
         if o in ("-m", "-a"):
             print(hr)
-            print("Run ID:", runId)
+            print("Run ID:", run_id)
             if f:
                 f.write("ngap_uat,")
             ngap_service_uat()
