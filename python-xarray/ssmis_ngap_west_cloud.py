@@ -24,7 +24,17 @@ base_url = ""
 suffix = ""
 f = False   # results output file
 
-def ngap_service():
+def ngap_localhost():
+    global base_url
+    global suffix
+    # This is the base url for the NGAP service which is attached to prod.
+    ngap_service_base = 'http://localhost:8080/ngap/providers/GHRC_CLOUD/collections/' \
+                        'RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/'
+    base_url = ngap_service_base
+    suffix = ""
+    print("Using NGAP Service (localhost:8080)")
+
+def ngap_service_west():
     global base_url
     global suffix
     # This is the base url for the NGAP service which is attached to prod.
@@ -32,7 +42,17 @@ def ngap_service():
                         'RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/'
     base_url = ngap_service_base
     suffix = ""
-    print("Using NGAP Service")
+    print("Using NGAP Service (us-west-2)")
+
+def ngap_service_uat():
+    global base_url
+    global suffix
+    # This is the base url for the NGAP service which is attached to prod.
+    ngap_service_base = 'https://opendap.uat.earthdata.nasa.gov/providers/GHRC_CLOUD/collections/' \
+                        'RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/'
+    base_url = ngap_service_base
+    suffix = ""
+    print("Using NGAP Service (UAT)")
 
 
 def s3_bucket():
@@ -149,14 +169,14 @@ def main():
     import getopt
 
     hr = "---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  "
-    runId="id_not_set "
+    run_id="id_not_set "
     global f        # results file
 
-    usage="Options -i <run_id> -d <datafile> -s s3, -g granules, -n ngap api, -t tea, -u tea-uat, -p tea-apigw -a all of s, g, n and t."
+    usage="Options -i <run_id> -d <datafile> -s s3, -g granules, -n ngap api (us-west-2+prod), -m ngap api (UAT), -t tea, -u tea-uat, -p tea-apigw -a all of s, g, n and t."
 
     try:
         # see https://docs.python.org/3.1/library/getopt.htm
-        optlist, args = getopt.getopt(sys.argv[1:], 'sgntahupd:i:')
+        optlist, args = getopt.getopt(sys.argv[1:], 'mlsgntahupd:i:')
     except:
         # print help information and exit:
         print(usage)
@@ -168,7 +188,7 @@ def main():
             print(usage)
 
         if o == "-i":
-            runId=a;
+            run_id=a
 
         if o == "-d":
             print("Datafile name: ", a)
@@ -176,7 +196,7 @@ def main():
 
         if o in ("-s", "-a"):
             print(hr)
-            print("Run ID:", runId)
+            print("Run ID:", run_id)
             if f:
                 f.write("s3,")
             s3_bucket()
@@ -185,16 +205,25 @@ def main():
 
         if o in ("-g", "-a"):
             print(hr)
-            print("Run ID:", runId)
+            print("Run ID:", run_id)
             if f:
                 f.write("granule,")
             granules()
             clean_cache()
             get_the_things()
 
+        if o in ("-l", "-a"):
+            print(hr)
+            print("Run ID:", run_id)
+            if f:
+                f.write("ngap_localhost,")
+            ngap_localhost()
+            clean_cache()
+            get_the_things()
+
         if o in ("-t", "-a"):
             print(hr)
-            print("Run ID:", runId)
+            print("Run ID:", run_id)
             if f:
                 f.write("tea_prod,")
             tea_prod()
@@ -203,7 +232,7 @@ def main():
 
         if o in ("-u", "-a"):
             print(hr)
-            print("Run ID:", runId)
+            print("Run ID:", run_id)
             if f:
                 f.write("tea_uat,")
             tea_uat()
@@ -212,7 +241,7 @@ def main():
 
         if o in ("-p", "-a"):
             print(hr)
-            print("Run ID:", runId)
+            print("Run ID:", run_id)
             if f:
                 f.write("tea_apigw,")
             tea_apigw()
@@ -221,10 +250,19 @@ def main():
 
         if o in ("-n", "-a"):
             print(hr)
-            print("Run ID:", runId)
+            print("Run ID:", run_id)
             if f:
-                f.write("ngap,")
-            ngap_service()
+                f.write("ngap_west,")
+            ngap_service_west()
+            clean_cache()
+            get_the_things()
+
+        if o in ("-m", "-a"):
+            print(hr)
+            print("Run ID:", run_id)
+            if f:
+                f.write("ngap_uat,")
+            ngap_service_uat()
             clean_cache()
             get_the_things()
 
