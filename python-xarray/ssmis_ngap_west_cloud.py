@@ -24,7 +24,7 @@ base_url = ""
 suffix = ""
 f = False   # results output file
 
-def ngap_service():
+def ngap_service_west():
     global base_url
     global suffix
     # This is the base url for the NGAP service which is attached to prod.
@@ -32,7 +32,17 @@ def ngap_service():
                         'RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/'
     base_url = ngap_service_base
     suffix = ""
-    print("Using NGAP Service")
+    print("Using NGAP Service (us-west-2)")
+
+def ngap_service_uat():
+    global base_url
+    global suffix
+    # This is the base url for the NGAP service which is attached to prod.
+    ngap_service_base = 'https://opendap.uat.earthdata.nasa.gov/providers/GHRC_CLOUD/collections/' \
+                        'RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/'
+    base_url = ngap_service_base
+    suffix = ""
+    print("Using NGAP Service (UAT)")
 
 
 def s3_bucket():
@@ -156,7 +166,7 @@ def main():
 
     try:
         # see https://docs.python.org/3.1/library/getopt.htm
-        optlist, args = getopt.getopt(sys.argv[1:], 'sgntahupd:i:')
+        optlist, args = getopt.getopt(sys.argv[1:], 'msgntahupd:i:')
     except:
         # print help information and exit:
         print(usage)
@@ -223,8 +233,17 @@ def main():
             print(hr)
             print("Run ID:", runId)
             if f:
-                f.write("ngap,")
-            ngap_service()
+                f.write("ngap_west,")
+            ngap_service_west()
+            clean_cache()
+            get_the_things()
+
+        if o in ("-m", "-a"):
+            print(hr)
+            print("Run ID:", runId)
+            if f:
+                f.write("ngap_uat,")
+            ngap_service_uat()
             clean_cache()
             get_the_things()
 
