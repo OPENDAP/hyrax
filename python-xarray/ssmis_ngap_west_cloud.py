@@ -121,21 +121,21 @@ def get_the_things():
     global suffix
     global f        # results file
 
-    print("base_url: ", base_url,sep="")
-    print("  suffix :", suffix,sep="")
+    print("base_url: ", base_url, sep="")
+    print("  suffix :", suffix, sep="")
 
-    username=os.environ.get('USER')
-    password=os.environ.get('PWORD')
+    username = os.environ.get('USER')
+    password = os.environ.get('PWORD')
 
     # print("username: ",username,sep="")
     # print("password: ",password,sep="")
 
     do_auth = True
     if username is not None and password is not None :
-        print("Using credentials for '",username,"'",sep="")
+        print("Using credentials for '", username, "'", sep="")
     else:
         print("No (complete) authentication credentials available.")
-        do_auth = False;
+        do_auth = False
 
 
     # Allows us to visualize the dask progress for parallel operations
@@ -154,7 +154,7 @@ def get_the_things():
     try:
         tic = time.perf_counter()
 
-        if do_auth :
+        if do_auth:
             session = setup_session(username, password, check_url=od_files[0])
             cloud_data = xa.open_mfdataset(od_files, engine='pydap', parallel=True, combine='by_coords',
                                            backend_kwargs={'session': session})
