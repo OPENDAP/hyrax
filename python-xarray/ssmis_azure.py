@@ -3,7 +3,7 @@ import xarray as xa
 import sys
 
 # Get the granule names
-from ssmis_granules import f16_ssmis_100
+from ssmis_azure_granules import f16_ssmis_100
 
 import os
 import glob
@@ -40,11 +40,11 @@ def s3_bucket():
 
     # This is the base URL for the collection of dmr++ files whose dmrpp:href urls
     # point to objects in an opendap S3 bucket called ngap-ssmis-west
-    s3_bucket_base = "http://hyrax-gce-instance.opendap.org:8080/opendap/data/dmrpp/ssmis/"
+    s3_bucket_base = "http://hyrax-azure-instance.opendap.org:8080/opendap/data/ssmis/"
     # Old URL: "http://35.209.179.223:8080/opendap/data/dmrpp/ssmis/"
     base_url = s3_bucket_base
     suffix=".dmrpp"
-    print("Using S3 Bucket ngap-ssmis-west")
+    print("Using Azure BlobStorage")
 
 
 def tea_prod():
