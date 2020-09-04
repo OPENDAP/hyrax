@@ -21,7 +21,7 @@ NB: You might not need to use pip for pydap and might not need ipykernel
 
 Add this to the bottom of ~/.bashrc:
 
-function conda-on() {
+function conda_on() {
     source ~/anaconda3/etc/profile.d/conda.sh
     conda activate base
 }

@@ -4,7 +4,8 @@ import sys
 
 # Get the granule names
 from ssmis_granules import f16_ssmis_100
-
+from pydap.client import open_url
+from pydap.cas.urs import setup_session
 import os
 import glob
 
@@ -120,8 +121,22 @@ def get_the_things():
     global suffix
     global f        # results file
 
-    print("base_url: ", base_url)
-    print("  suffix: ", suffix)
+    print("base_url: ", base_url,sep="")
+    print("  suffix :", suffix,sep="")
+
+    username=os.environ.get('USER')
+    password=os.environ.get('PWORD')
+
+    # print("username: ",username,sep="")
+    # print("password: ",password,sep="")
+
+    do_auth = True
+    if username is not None and password is not None :
+        print("Using credentials for '",username,"'",sep="")
+    else:
+        print("No (complete) authentication credentials available.")
+        do_auth = False;
+
 
     # Allows us to visualize the dask progress for parallel operations
     from dask.diagnostics import ProgressBar
@@ -135,11 +150,16 @@ def get_the_things():
     for g in f16_ssmis_100:
         od_files.append(base_url + g + suffix)
 
-    print("   first: ", od_files[0], '\n', "   last: ", od_files[-1])
+    print("   first:", od_files[0], '\n', "   last:", od_files[-1])
     try:
         tic = time.perf_counter()
 
-        cloud_data = xa.open_mfdataset(od_files, engine='pydap', parallel=True, combine='by_coords')
+        if do_auth :
+            session = setup_session(username, password, check_url=od_files[0])
+            cloud_data = xa.open_mfdataset(od_files, engine='pydap', parallel=True, combine='by_coords',
+                                           backend_kwargs={'session': session})
+        else:
+            cloud_data = xa.open_mfdataset(od_files, engine='pydap', parallel=True, combine='by_coords')
 
         cloud_ws = cloud_data['wind_speed'].sel(latitude=slice(-53.99, -14), longitude=slice(140, 170))
 
@@ -167,6 +187,7 @@ def get_the_things():
 
 def main():
     import getopt
+
 
     hr = "---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  "
     run_id="id_not_set "
