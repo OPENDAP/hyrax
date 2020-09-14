@@ -25,6 +25,7 @@ base_url = ""
 suffix = ""
 f = False   # results output file
 
+# -l switch
 def ngap_localhost():
     global base_url
     global suffix
@@ -35,6 +36,7 @@ def ngap_localhost():
     suffix = ""
     print("Using NGAP Service (localhost:8080)")
 
+# -n switch
 def ngap_service_west():
     global base_url
     global suffix
@@ -45,6 +47,7 @@ def ngap_service_west():
     suffix = ""
     print("Using NGAP Service (us-west-2)")
 
+# -m switch
 def ngap_service_uat():
     global base_url
     global suffix
@@ -55,7 +58,7 @@ def ngap_service_uat():
     suffix = ""
     print("Using NGAP Service (UAT)")
 
-
+# -s switch
 def s3_bucket():
     global base_url
     global suffix
@@ -68,6 +71,7 @@ def s3_bucket():
     print("Using S3 Bucket ngap-ssmis-west")
 
 
+# -t switch
 def tea_prod():
     global base_url
     global suffix
@@ -79,6 +83,7 @@ def tea_prod():
     suffix=".dmrpp"
     print("Using TEA in PROD")
 
+# -u switch
 def tea_uat():
     global base_url
     global suffix
@@ -90,6 +95,7 @@ def tea_uat():
     suffix=".dmrpp"
     print("Using TEA in UAT")
 
+# -p switch
 def tea_apigw():
     global base_url
     global suffix
@@ -101,7 +107,7 @@ def tea_apigw():
     suffix=".dmrpp"
     print("Using TEA in API Gateway")
 
-
+# -g switch
 def granules():
     global base_url
     global suffix
