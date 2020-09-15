@@ -25,7 +25,7 @@ function run_ssmis() {
         # echo "granule[${count}]: ${granule}"
         echo "${granule}" >> ${data_file}.time # granule name in data file
         dap_url=${server_url}/${granule}${granule_suffix}
-        run_curl 2> ${data_file}.time # time to execute in data file
+        run_curl 2>> ${data_file}.time # time to execute in data file
         status=$?
         echo "status ${status}" >> ${data_file}.time # cURL status in data file
         echo -n "(${mark}-${count})"
@@ -35,7 +35,7 @@ function run_ssmis() {
 
 function curl_run1000() {
 
-    rm -f ${data_file}
+    rm -f ${data_file} ${data_file}.time
 
     for i in {1..1000}; do
         echo "----- LAP: $i Started: "`date`"  ut: "`date "+%s"`
