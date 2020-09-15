@@ -2,7 +2,7 @@
 
 granules_file="ssmis_granules.py"
 dap_suffix=".ascii"
-constraint="wind_speed%5B143:1:304%5D%5B559:1:680%5D"
+constraint="wind_speed%5B0%5D%5B143:1:304%5D%5B559:1:680%5D"
 data_file="ssmis_result.csv"
 
 
