@@ -12,6 +12,7 @@ function run_curl(){
 
 
 function run_ssmis() {
+    mark=${1};
     server_url="http://ngap-west.opendap.org/opendap/ssmis/tea-uat"
     granule_suffix=".dmrpp"
 
@@ -27,6 +28,7 @@ function run_ssmis() {
         run_curl 2> ${data_file}.time # time to execute in data file
         status=$?
         echo "status ${status}" >> ${data_file}.time # cURL status in data file
+        echo -n "(${mark}-${count})"
     done
     echo "# -- --  -- -- SSMIS wind_speed subset END"
 }
@@ -37,7 +39,12 @@ function curl_run1000() {
 
     for i in {1..1000}; do
         echo "----- LAP: $i Started: "`date`"  ut: "`date "+%s"`
-        run_ssmis
+        for process in {1..8}; do
+            run_ssmis "${i}-${process}" & 2>&1
+        done
+        wait;
     done
-
 }
+
+
+
