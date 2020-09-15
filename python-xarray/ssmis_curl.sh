@@ -23,11 +23,11 @@ function run_ssmis() {
     for granule in ${granules}; do
         let "count++"
         echo "granule[${count}]: ${granule}"
-        echo "${granule}" >> ${data_file}.time
+        echo "${granule}" >> ${data_file}.time # granule name in data file
         dap_url=${server_url}/${granule}${granule_suffix}
-        run_curl 2> ${data_file}.time
+        run_curl 2> ${data_file}.time # time to execute in data file
         status=$?
-        echo "status ${status}" >> ${data_file}.time
+        echo "status ${status}" >> ${data_file}.time # cURL status in data file
     done
     echo "# -- --  -- -- SSMIS wind_speed subset END"
 }
