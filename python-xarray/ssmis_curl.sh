@@ -23,7 +23,7 @@ function run_ssmis() {
     for granule in ${granules}; do
         let "count++"
         log_mark="(${mark}-${count})"
-        echo -n "(${log_mark})"
+        echo -n "${log_mark}"
 
         # echo "granule[${count}]: ${granule}"
         echo "${log_mark}-${granule}" >> ${data_file}.time # granule name in data file
