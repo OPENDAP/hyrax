@@ -39,7 +39,7 @@ function curl_run1000() {
 
     rm -f ${data_file} ${data_file}.time
 
-    for i in {1..1000}; do
+    for i in {1..125}; do
         echo "----- LAP: $i Started: "`date`"  ut: "`date "+%s"`
         for process in {1..8}; do
             run_ssmis "${i}-${process}" & 2>&1
