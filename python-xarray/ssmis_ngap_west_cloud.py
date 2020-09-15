@@ -128,7 +128,7 @@ def get_the_things():
     global f        # results file
 
     print("base_url: ", base_url, sep="")
-    print("  suffix :", suffix, sep="")
+    print("  suffix: ", suffix, sep="")
 
     username = os.environ.get('USER')
     password = os.environ.get('PWORD')

@@ -7,7 +7,7 @@ data_file="ssmis_result.csv"
 
 
 function run_curl(){
-    time -p curl -s -L -c cookie -b cookie ${dap_url}${dap_suffix}?${constraint} >> ${data_file}  >> ${data_file}
+    time -p curl -s -L -c cookie -b cookie ${dap_url}${dap_suffix}?${constraint} >> ${data_file}
 }
 
 
