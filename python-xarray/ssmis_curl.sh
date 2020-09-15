@@ -16,7 +16,6 @@ function run_ssmis() {
     granule_suffix=".dmrpp"
 
     echo "# -- --  -- -- SSMIS wind_speed subset BEGIN"
-    rm -f ${data_file}
     granules=`cat ${granules_file} | awk '{if(NR<91){n=split($0,s,"\"");if(NF==2){print s[3];}else{print s[2];}}}'`
     echo "Found "`echo "${granules}" | wc -l`" granules."
     count=0;
@@ -32,7 +31,13 @@ function run_ssmis() {
     echo "# -- --  -- -- SSMIS wind_speed subset END"
 }
 
-for i in {1..1000}; do
-    echo "----- $i"
-    run_ssmis
-done
+function curl_run1000) {
+
+    rm -f ${data_file}
+
+    for i in {1..1000}; do
+        echo "----- LAP: $i Started: "`date`"  ut: "`date "+%s"`
+        run_ssmis
+    done
+
+}
