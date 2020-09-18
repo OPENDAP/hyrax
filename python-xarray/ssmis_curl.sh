@@ -17,16 +17,14 @@ function use_tea_uat {
 }
 
 function use_ngap_west {
-    export server_url = 'http://ngap-west.opendap.org/opendap/ngap/providers/GHRC_CLOUD/collections/' \
-                        'RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/'
-    export granule_suffix = ""
+    export server_url="http://ngap-west.opendap.org/opendap/ngap/providers/GHRC_CLOUD/collections/RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/"
+    export granule_suffix=""
     echo "Using NGAP Service (us-west-2)"
 }
 
 function use_ngap_uat {
-    export server_url = 'http://opendap.uat.earthdata.nasa.gov/providers/GHRC_CLOUD/collections/' \
-                        'RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/'
-    export granule_suffix = ""
+    export server_url="http://opendap.uat.earthdata.nasa.gov/providers/GHRC_CLOUD/collections/RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/"
+    export granule_suffix=""
     echo "Using NGAP Service (us-west-2)"
 }
 
