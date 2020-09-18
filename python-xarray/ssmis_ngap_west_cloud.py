@@ -185,12 +185,19 @@ def get_the_things():
         if f:
             f.write(f"{time.perf_counter() - tic:0.4f},")
             f.write("fail\n")
+
+    except UnicodeError as err:
+        # See https://docs.pylonsproject.org/projects/webob/en/stable/api/exceptions.html#
+        print("UnicodeError - encoding: ", err.encoding, "  reason: ", err.reason, " object: ", type(err.object), " start: ", err.object[err.start]," end: ",err.end);
+        print("Error: ", sys.exc_info()[0])
+        if f:
+            f.write(f"{time.perf_counter() - tic:0.4f},")
+            f.write("fail\n")
     except:
         print("Error: ", sys.exc_info()[0])
         if f:
             f.write(f"{time.perf_counter() - tic:0.4f},")
             f.write("fail\n")
-
 
 def main():
     import getopt
