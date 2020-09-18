@@ -10,6 +10,7 @@ import os
 import glob
 
 
+
 def clean_cache():
     files = glob.glob('/tmp/hyrax_http/*')
 
@@ -30,7 +31,7 @@ def ngap_localhost():
     global base_url
     global suffix
     # This is the base url for the NGAP service which is attached to prod.
-    ngap_service_base = 'http://localhost:8080/ngap/providers/GHRC_CLOUD/collections/' \
+    ngap_service_base = 'http://localhost:8080/opendap/ngap/providers/GHRC_CLOUD/collections/' \
                         'RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/'
     base_url = ngap_service_base
     suffix = ""
