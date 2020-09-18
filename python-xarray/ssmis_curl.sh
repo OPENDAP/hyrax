@@ -60,9 +60,9 @@ function curl_run1000() {
 
     for i in {1..125}; do
         echo "----- LAP: $i Started: "`date`"  uTime: "`date "+%s"`
-        #for process in {1..8}; do
+        for process in {1..8}; do
             run_ssmis "${i}-${process}" & 2>&1
-        #done
+        done
         wait;
     done
 }
