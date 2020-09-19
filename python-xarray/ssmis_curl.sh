@@ -32,10 +32,12 @@ function use_ngap_uat {
 
 
 function run_ssmis() {
-    mark=${1};
+    lap=${1};
+    pid=${2};
+    mark="${lap}-${pid}";
 
     use_ngap_uat
-    cookie_file="${data_file}-cf-${mark}"
+    cookie_file="${data_file}-cf-${pid}"
 
     echo "${mark} -- --  -- -- SSMIS wind_speed subset BEGIN"
     granules=`cat ${granules_file} | awk '{if(NR<91){n=split($0,s,"\"");if(NF==2){print s[3];}else{print s[2];}}}'`
@@ -63,7 +65,7 @@ function curl_run1000() {
     for i in {1..500}; do
         echo "----- LAP: $i Started: "`date`"  uTime: "`date "+%s"`
         for process in {1..8}; do
-            run_ssmis "${i}-${process}" & 2>&1
+            run_ssmis "${i}" "${process}" & 2>&1
         done
         wait;
     done
