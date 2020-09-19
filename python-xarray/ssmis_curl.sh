@@ -25,7 +25,7 @@ function use_ngap_west {
 function use_ngap_uat {
     export server_url="http://opendap.uat.earthdata.nasa.gov/providers/GHRC_CLOUD/collections/RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/"
     export granule_suffix=""
-    echo "Using NGAP Service (us-west-2)"
+    echo "Using NGAP in UAT"
 }
 
 
