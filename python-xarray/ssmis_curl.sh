@@ -7,7 +7,8 @@ data_file="ssmis_curl.result.csv"
 
 
 function run_curl(){
-    time -p curl -s -n -L -c cookie -b cookie ${dap_url}${dap_suffix}?${constraint} >> ${data_file}
+    cf_name=$1
+    time -p curl -s -n -L -c ${cf_name} -b ${cf_name} ${dap_url}${dap_suffix}?${constraint} >> ${data_file}
 }
 
 function use_tea_uat {
@@ -42,6 +43,7 @@ function run_ssmis() {
     for granule in ${granules}; do
         let "count++"
         log_mark="(${mark}-${count})"
+        cookie_file="${data_file}-cf-${mark}"
         echo -n "."
 
         # echo "granule[${count}]: ${granule}"
@@ -56,7 +58,7 @@ function run_ssmis() {
 
 function curl_run1000() {
 
-    rm -f ${data_file} ${data_file}.time
+    rm -f ${data_file} ${data_file}.time ${data_file}-cf-*
 
     for i in {1..500}; do
         echo "----- LAP: $i Started: "`date`"  uTime: "`date "+%s"`
