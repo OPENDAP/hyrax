@@ -35,14 +35,14 @@ function run_ssmis() {
 
     use_ngap_uat
 
-    echo "# -- --  -- -- SSMIS wind_speed subset BEGIN"
+    echo "${mark} -- --  -- -- SSMIS wind_speed subset BEGIN"
     granules=`cat ${granules_file} | awk '{if(NR<91){n=split($0,s,"\"");if(NF==2){print s[3];}else{print s[2];}}}'`
-    echo "Found "`echo "${granules}" | wc -l`" granules."
+    echo "${mark} Found "`echo "${granules}" | wc -l`" granules."
     count=0;
     for granule in ${granules}; do
         let "count++"
         log_mark="(${mark}-${count})"
-        echo -n "${log_mark}"
+        echo -n "."
 
         # echo "granule[${count}]: ${granule}"
         echo "${log_mark}-${granule}" >> ${data_file}.time # granule name in data file
@@ -51,7 +51,7 @@ function run_ssmis() {
         status=$?
         echo "status ${status}" >> ${data_file}.time # cURL status in data file
     done
-    echo "# -- --  -- -- SSMIS wind_speed subset END"
+    echo "${mark} -- --  -- -- SSMIS wind_speed subset END"
 }
 
 function curl_run1000() {
