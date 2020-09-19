@@ -35,6 +35,7 @@ function run_ssmis() {
     mark=${1};
 
     use_ngap_uat
+    cookie_file="${data_file}-cf-${mark}"
 
     echo "${mark} -- --  -- -- SSMIS wind_speed subset BEGIN"
     granules=`cat ${granules_file} | awk '{if(NR<91){n=split($0,s,"\"");if(NF==2){print s[3];}else{print s[2];}}}'`
@@ -43,13 +44,12 @@ function run_ssmis() {
     for granule in ${granules}; do
         let "count++"
         log_mark="(${mark}-${count})"
-        cookie_file="${data_file}-cf-${mark}"
         echo -n "."
 
         # echo "granule[${count}]: ${granule}"
         echo "${log_mark}-${granule}" >> ${data_file}.time # granule name in data file
         dap_url=${server_url}/${granule}${granule_suffix}
-        run_curl 2>> ${data_file}.time # time to execute in data file
+        run_curl "${cookie_file}" 2>> ${data_file}.time # time to execute in data file
         status=$?
         echo "status ${status}" >> ${data_file}.time # cURL status in data file
     done
