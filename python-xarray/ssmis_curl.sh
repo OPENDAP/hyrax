@@ -64,7 +64,7 @@ function curl_run1000() {
 
     for i in {1..1000}; do
         echo "----- LAP: $i Started: "`date`"  uTime: "`date "+%s"`
-        for process in {1..10}; do
+        for process in {0..7}; do
             run_ssmis "${i}" "${process}" & 2>&1
         done
         wait;
