@@ -63,7 +63,7 @@ function run_ssmis() {
         # echo "granule[${count}]: ${granule}"
         echo "${log_mark}-${granule}" >> ${log_file}.time # granule name in time file
         dap_url=${server_url}/${granule}${granule_suffix}
-        run_curl "${log_file}" "${cookie_file}" "${pid}" 2>> ${log_file}-${pid}.time # time output in time file
+        run_curl "${log_file}" "${cookie_file}" "${pid}" 2>> ${log_file}.time # time output in time file
         status=$?
         echo "status ${status}" >> ${log_file}.time # cURL status in time file
     done
