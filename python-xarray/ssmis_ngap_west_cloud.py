@@ -163,6 +163,7 @@ def get_the_things():
 
         if do_auth:
             session = setup_session(username, password, check_url=od_files[0])
+            session.headers.update({'Accept-Encoding': 'deflate'})
             cloud_data = xa.open_mfdataset(od_files, engine='pydap', parallel=True, combine='by_coords',
                                            backend_kwargs={'session': session})
         else:
