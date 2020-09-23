@@ -15,7 +15,7 @@ function run_curl(){
 }
 
 function use_tea_uat {
-    export server_url="http://ngap-west.opendap.org/opendap/ssmis/tea-uat"
+    export server_url="http://ngap-west.opendap.org/opendap/ssmis/tea-uat/"
     export granule_suffix=".dmrpp"
     echo "Using TEA in UAT"
 }
@@ -33,7 +33,7 @@ function use_ngap_uat {
 }
 
 function use_localhost {
-    export server_url="http://localhost:8080/ngap/providers/GHRC_CLOUD/collections/RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/"
+    export server_url="http://localhost:8080/opendap/ngap/providers/GHRC_CLOUD/collections/RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/"
     export granule_suffix=""
     echo "Using NGAP in UAT"
 }
@@ -46,6 +46,7 @@ function run_ssmis() {
     mark="${lap}-${pid}";
 
     use_ngap_uat
+    # use_localhost
     cookie_file="${result_file_base}-${pid}.cf"
     rm -f "${cookie_file}"
 
@@ -62,7 +63,7 @@ function run_ssmis() {
 
         # echo "granule[${count}]: ${granule}"
         echo "${log_mark}-${granule}" >> ${log_file}.time # granule name in time file
-        dap_url=${server_url}/${granule}${granule_suffix}
+        dap_url=${server_url}${granule}${granule_suffix}
         run_curl "${log_file}" "${cookie_file}" "${pid}" 2>> ${log_file}.time # time output in time file
         status=$?
         echo "status ${status}" >> ${log_file}.time # cURL status in time file
