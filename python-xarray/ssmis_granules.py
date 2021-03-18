@@ -1,6 +1,4 @@
 
-base_url = 'http://ngap-west.opendap.org/opendap/ngap/providers/GHRC_CLOUD/collections/RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/'
-
 f16_ssmis_100 = ["f16_ssmis_20031026v7.nc",
 "f16_ssmis_20031027v7.nc",
 "f16_ssmis_20031028v7.nc",
