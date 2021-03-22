@@ -10,7 +10,7 @@ project(hyrax_git)
 # Edited. set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD 11)
 
-# jhrg 7/30/20 add_subdirectory(libdap4)
+add_subdirectory(libdap4)
 add_subdirectory(bes)
 
 include_directories(bes)

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Source this in the directory to be 'prefix' or pass the directory
 # as the first param. Make this a command using 'alias.' e.g.
