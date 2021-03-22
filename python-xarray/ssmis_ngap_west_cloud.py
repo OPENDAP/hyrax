@@ -10,6 +10,7 @@ import os
 import glob
 
 
+
 def clean_cache():
     files = glob.glob('/tmp/hyrax_http/*')
 
@@ -30,7 +31,7 @@ def ngap_localhost():
     global base_url
     global suffix
     # This is the base url for the NGAP service which is attached to prod.
-    ngap_service_base = 'http://localhost:8080/ngap/providers/GHRC_CLOUD/collections/' \
+    ngap_service_base = 'http://localhost:8080/opendap/ngap/providers/GHRC_CLOUD/collections/' \
                         'RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/'
     base_url = ngap_service_base
     suffix = ""
@@ -128,7 +129,7 @@ def get_the_things():
     global f        # results file
 
     print("base_url: ", base_url, sep="")
-    print("  suffix :", suffix, sep="")
+    print("  suffix: ", suffix, sep="")
 
     username = os.environ.get('USER')
     password = os.environ.get('PWORD')
@@ -162,8 +163,8 @@ def get_the_things():
 
         if do_auth:
             session = setup_session(username, password, check_url=od_files[0])
-            cloud_data = xa.open_mfdataset(od_files, engine='pydap', parallel=False, combine='by_coords',
-                                           backend_kwargs={'session': session})
+            session.headers.update({'Accept-Encoding': 'deflate'})
+            cloud_data = xa.open_mfdataset(od_files, engine='pydap', parallel=True, combine='by_coords', backend_kwargs={'session': session})
         else:
             cloud_data = xa.open_mfdataset(od_files, engine='pydap', parallel=True, combine='by_coords')
 
@@ -184,12 +185,19 @@ def get_the_things():
         if f:
             f.write(f"{time.perf_counter() - tic:0.4f},")
             f.write("fail\n")
+
+    except UnicodeError as err:
+        # See https://docs.pylonsproject.org/projects/webob/en/stable/api/exceptions.html#
+        print("UnicodeError - encoding: ", err.encoding, "  reason: ", err.reason, " object: ", type(err.object), " start: ", err.object[err.start]," end: ",err.end);
+        print("Error: ", sys.exc_info()[0])
+        if f:
+            f.write(f"{time.perf_counter() - tic:0.4f},")
+            f.write("fail\n")
     except:
         print("Error: ", sys.exc_info()[0])
         if f:
             f.write(f"{time.perf_counter() - tic:0.4f},")
             f.write("fail\n")
-
 
 def main():
     import getopt
