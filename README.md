@@ -124,4 +124,3 @@ To clean the repo, returning it to it's initial state, use:
 If one of the distcheck targets failed, then the build dir that 
 it left behind will not be writable by anyone, so chmod 755 or sudo
 to remove it.
-
