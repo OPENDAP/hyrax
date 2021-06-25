@@ -10,14 +10,12 @@ project(hyrax_git)
 # Edited. set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD 11)
 
-add_subdirectory(libdap4)
-add_subdirectory(bes)
-
-include_directories(bes)
-include_directories(libdap4)
+# this is needed on OSX Bug Sur to find libSystem
+link_directories(/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib)
 
 include_directories(/usr/local/include)
 include_directories(/usr/local/include/c++)
+include_directories(/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/)
 
 # Added.
 include_directories(/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/libxml2)
@@ -32,6 +30,16 @@ include_directories(build/deps/include)
 include_directories(build/deps/include/gridfields)
 include_directories(build/deps/include/openjpeg-2.1)
 include_directories(build/deps/include/unicode)
+
+add_subdirectory(libdap4)
+add_subdirectory(bes)
+add_subdirectory(STAREmaster)
+
+include_directories(bes)
+include_directories(libdap4)
+
+
+
 
 # include_directories(build/include)
 # include_directories(build/include/bes)
