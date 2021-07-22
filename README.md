@@ -1,3 +1,4 @@
+[![NSF-1740627](https://img.shields.io/badge/NSF-1740627-blue.svg)](https://nsf.gov/awardsearch/showAward?AWD_ID=1740627)
 
 This is README describes how to use the very simple scripts here to
 clone and build Hyrax. The scripts can also be used to set up a kind
@@ -123,4 +124,3 @@ To clean the repo, returning it to it's initial state, use:
 If one of the distcheck targets failed, then the build dir that 
 it left behind will not be writable by anyone, so chmod 755 or sudo
 to remove it.
-
