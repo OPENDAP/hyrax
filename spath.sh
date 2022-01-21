@@ -16,6 +16,9 @@ else
     export PATH=$prefix/bin:$prefix/deps/bin:$PATH
 fi
 
+# set the site config file, saving some typing and maybe some grief
+export CONFIG_SITE=$(pwd)/config.site
+
 # This is needed for the linux builds; if using the deps libraries
 # on linux, those directories also need to be on LD_LIBRARY_PATH.
 # I'm not sure this is true... jhrg 1/2/13
