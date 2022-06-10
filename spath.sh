@@ -23,10 +23,21 @@ fi
 # on linux, those directories also need to be on LD_LIBRARY_PATH.
 # I'm not sure this is true... jhrg 1/2/13
 # We do need this for icu-3.6 on AWS EC2 instances. jhrg 3/5/13
-#export LD_LIBRARY_PATH=$prefix/lib:$prefix/deps/lib
-export LD_LIBRARY_PATH=$prefix/deps/lib
-export CPPFLAGS=-I/usr/include/tirpc
-export LDFLAGS=-ltirpc
+
+if ! echo $LD_LIBRARY_PATH | grep -q deps/lib
+then
+    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$prefix/deps/lib"
+fi
+
+if ! echo $CPPFLAGS | grep -q /usr/include/tirpc
+then
+    export CPPFLAGS="$CPPFLAGS -I/usr/include/tirpc"
+fi
+
+if ! echo $LDFLAGS | grep -q tirpc
+then
+    export LDFLAGS="$LDFLAGS -ltirpc"
+fi
 
 export TESTSUITEFLAGS=--jobs=9
 
