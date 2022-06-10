@@ -17,7 +17,7 @@ else
 fi
 
 # set the site config file, saving some typing and maybe some grief
-export CONFIG_SITE=$(pwd)/config.site
+# export CONFIG_SITE=$(pwd)/config.site
 
 # This is needed for the linux builds; if using the deps libraries
 # on linux, those directories also need to be on LD_LIBRARY_PATH.
@@ -25,6 +25,8 @@ export CONFIG_SITE=$(pwd)/config.site
 # We do need this for icu-3.6 on AWS EC2 instances. jhrg 3/5/13
 #export LD_LIBRARY_PATH=$prefix/lib:$prefix/deps/lib
 export LD_LIBRARY_PATH=$prefix/deps/lib
+export CPPFLAGS=-I/usr/include/tirpc
+export LDFLAGS=-ltirpc
 
 export TESTSUITEFLAGS=--jobs=9
 
