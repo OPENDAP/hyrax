@@ -1,309 +1,143 @@
 
-import xarray as xa
-import sys
+"""
+Test access to OPeNDAP within NGAP. This is part of getting
+OPeNDAP access functioning for 'analysis in place' within the
+NGAP environment.
 
-# Get the granule names
-from ssmis_granules import f16_ssmis_100
-from pydap.client import open_url
-from pydap.cas.urs import setup_session
+jhrg 1/24/22
+"""
+
+import sys
 import os
 import glob
+import webob
+import time     # function run-times
+import getopt   # for main()
+import getpass  # for get_credentials()
+
+import xarray as xa
+
+from pydap.client import open_url
+from pydap.cas.urs import setup_session
+
+show_timing = False    # True shows the run-time for some functions
 
 
-def clean_cache():
-    files = glob.glob('/tmp/hyrax_http/*')
-
-    for f in files:
-        try:
-            # f.unlink()
-            os.unlink(f)
-        except OSError as e:
-            print("Error: %s : %s" % (f, e.strerror))
-
-
-base_url = ""
-suffix = ""
-f = False   # results output file
-
-# -l switch
-def ngap_localhost():
-    global base_url
-    global suffix
-    # This is the base url for the NGAP service which is attached to prod.
-    ngap_service_base = 'http://localhost:8080/opendap/ngap/providers/GHRC_CLOUD/collections/' \
-                        'RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/'
-    base_url = ngap_service_base
-    suffix = ""
-    print("Using NGAP Service (localhost:8080)")
-
-# -n switch
-def ngap_service_west():
-    global base_url
-    global suffix
-    # This is the base url for the NGAP service which is attached to prod.
-    ngap_service_base = 'http://ngap-west.opendap.org/opendap/ngap/providers/GHRC_CLOUD/collections/' \
-                        'RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/'
-    base_url = ngap_service_base
-    suffix = ""
-    print("Using NGAP Service (us-west-2)")
-
-# -m switch
-def ngap_service_uat():
-    global base_url
-    global suffix
-    # This is the base url for the NGAP service which is attached to prod.
-    ngap_service_base = 'https://opendap.uat.earthdata.nasa.gov/providers/GHRC_CLOUD/collections/' \
-                        'RSS%20SSMIS%20OCEAN%20PRODUCT%20GRIDS%20DAILY%20FROM%20DMSP%20F16%20NETCDF%20V7/granules/'
-    base_url = ngap_service_base
-    suffix = ""
-    print("Using NGAP Service (UAT)")
-
-# -s switch
-def s3_bucket():
-    global base_url
-    global suffix
-
-    # This is the base URL for the collection of dmr++ files whose dmrpp:href urls
-    # point to objects in an opendap S3 bucket called ngap-ssmis-west
-    s3_bucket_base = "http://ngap-west.opendap.org/opendap/ssmis/ngap-ssmis-west/"
-    base_url = s3_bucket_base
-    suffix=".dmrpp"
-    print("Using S3 Bucket ngap-ssmis-west")
-
-
-# -t switch
-def tea_prod():
-    global base_url
-    global suffix
-
-    # This is the base URL for the collection of dmr++ files whose dmrpp:href urls
-    # point to the TEA endpoint for PROD. URLs from TEA are cached.
-    tea_prod_base = "http://ngap-west.opendap.org/opendap/ssmis/tea-prod/"
-    base_url = tea_prod_base
-    suffix=".dmrpp"
-    print("Using TEA in PROD")
-
-# -u switch
-def tea_uat():
-    global base_url
-    global suffix
-
-    # This is the base URL for the collection of dmr++ files whose dmrpp:href urls
-    # point to the TEA endpoint for PROD. URLs from TEA are cached.
-    tea_prod_base = "http://ngap-west.opendap.org/opendap/ssmis/tea-uat/"
-    base_url = tea_prod_base
-    suffix=".dmrpp"
-    print("Using TEA in UAT")
-
-# -p switch
-def tea_apigw():
-    global base_url
-    global suffix
-
-    # This is the base URL for the collection of dmr++ files whose dmrpp:href urls
-    # point to the TEA endpoint for PROD. URLs from TEA are cached.
-    tea_prod_base = "http://ngap-west.opendap.org/opendap/ssmis/tea-apigw/"
-    base_url = tea_prod_base
-    suffix=".dmrpp"
-    print("Using TEA in API Gateway")
-
-# -g switch
-def granules():
-    global base_url
-    global suffix
-    # This is the base URL for the collection of source netcdf-4 granule 
-    # files.
-    granule_files_base = "http://ngap-west.opendap.org/opendap/ssmis/granules/"
-    base_url = granule_files_base
-    suffix=""
-    print("Using Granules")
-
-
-def get_the_things():
-    import webob
-    import time
-
-    global base_url
-    global suffix
-    global f        # results file
-
-    print("base_url: ", base_url, sep="")
-    print("  suffix: ", suffix, sep="")
-
+def get_credentials():
+    """
+    Read a username and password either from the environment variables USER and URS_PWORD
+    or from the terminal.
+    :return: A tuple (user, password)
+    """
     username = os.environ.get('USER')
-    password = os.environ.get('PWORD')
+    password = os.environ.get('URS_PWORD')
+    # Most machines do set USER, but URS_PWORD is suitably obscure
+    if username is None or password is None:
+        username = input("URS Username: ")
+        password = getpass.getpass("URS Password: ")
 
-    # print("username: ",username,sep="")
-    # print("password: ",password,sep="")
-
-    do_auth = True
-    if username is not None and password is not None :
-        print("Using credentials for '", username, "'", sep="")
-    else:
-        print("No (complete) authentication credentials available.")
-        do_auth = False
+    return username, password
 
 
-    # Allows us to visualize the dask progress for parallel operations
-    from dask.diagnostics import ProgressBar
+def build_session(credentials, url):
+    """
+    Build a pydap.cmr.session object using the credentials and the URL. As a bonus,
+    the session lets the OPeNDAP server know that this client can accept compressed
+    responses. NB: This is HTTP-level response compression and not the HDF5/NetCDF4
+    per-variable compression.
+    :param credentials: A tuple of the username and password to use for the session.
+    credentials[0] == the username, credentials[1] == the password.
+    :param url: The URL tied to the session
+    :return: The session object or None
+    """
+    session = setup_session(credentials[0], credentials[1], check_url=url)
+    session.headers.update({'Accept-Encoding': 'deflate'})
+    return session
 
-    ProgressBar().register()
 
-    # OPeNDAP In the Cloud
-
-    od_files = []
-
-    for g in f16_ssmis_100:
-        od_files.append(base_url + g + suffix)
-
-    print("   first:", od_files[0], '\n', "   last:", od_files[-1])
+def open_dataset(url, session):
+    """
+    Given a URL to a dataset in NGAP, open it using xarray. This function uses PyDAP to
+    open the remote dataset via OPeNDAP.
+    :param url: The URL - any opendap URL should work.
+    :param session: A pydap.cmr.session object for the URL.
+    :return: An xarray.Dataset that references the open dataset.
+    """
     try:
-        tic = time.perf_counter()
+        if show_timing:
+            tic = time.perf_counter()
 
         # open_mfdataset() == open multi-file dataset.
         # both open_datasets and ...mfdataset use netcdf4 as the default engine and that
         # should be able to open DAP URLS. jhrg 1/24/22
-        if do_auth:
-            session = setup_session(username, password, check_url=od_files[0])
-            session.headers.update({'Accept-Encoding': 'deflate'})
-            cloud_data = xa.open_mfdataset(od_files, engine='pydap', parallel=True, combine='by_coords', backend_kwargs={'session': session})
+        if session is not None:
+            xa_ds = xa.open_dataset(url, engine='pydap', backend_kwargs={'session': session})
         else:
-            cloud_data = xa.open_mfdataset(od_files, engine='pydap', parallel=True, combine='by_coords')
+            xa_ds = xa.open_mfdataset(url, engine='pydap')
 
-        cloud_ws = cloud_data['wind_speed'].sel(latitude=slice(-53.99, -14), longitude=slice(140, 170))
-
-        cloud_ws_mean = cloud_ws.mean(dim=['latitude', 'longitude'])
-
-        print(cloud_ws_mean)
-
-        if f:
-            f.write(f"{time.perf_counter() - tic:0.4f},")
-            f.write("success\n")
+        return xa_ds
 
     except webob.exc.HTTPError as err:
         # See https://docs.pylonsproject.org/projects/webob/en/stable/api/exceptions.html#
         print("HTTPError: code: ", err.code, ": ", err.detail);
         print("Error: ", sys.exc_info()[0])
-        if f:
-            f.write(f"{time.perf_counter() - tic:0.4f},")
-            f.write("fail\n")
 
     except UnicodeError as err:
         # See https://docs.pylonsproject.org/projects/webob/en/stable/api/exceptions.html#
         print("UnicodeError - encoding: ", err.encoding, "  reason: ", err.reason, " object: ", type(err.object), " start: ", err.object[err.start]," end: ",err.end);
         print("Error: ", sys.exc_info()[0])
-        if f:
-            f.write(f"{time.perf_counter() - tic:0.4f},")
-            f.write("fail\n")
+
     except:
         print("Error: ", sys.exc_info()[0])
-        if f:
-            f.write(f"{time.perf_counter() - tic:0.4f},")
-            f.write("fail\n")
+
+    finally:
+        if show_timing:
+            print(f"Time to open the url: {time.perf_counter() - tic:0.4f}\n")
 
 
 def main():
-    import getopt
-    hr = "---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  "
-    run_id="id_not_set "
-    global f        # results file
 
-    usage="Options -i <run_id> -d <datafile> -s s3, -g granules, -n ngap api (us-west-2+prod), -m ngap api (UAT), -t tea, -u tea-uat, -p tea-apigw -a all of s, g, n and t."
+    usage = "Options h: get help, l: login name, p: URS password, u: OPeNDAP URL"     # FIXME
 
     try:
         # see https://docs.python.org/3.1/library/getopt.htm
-        optlist, args = getopt.getopt(sys.argv[1:], 'mlsgntahupd:i:')
+        optlist, args = getopt.getopt(sys.argv[1:], 'hl:p:u:')
     except:
         # print help information and exit:
         print(usage)
         sys.exit(2)
 
-    for o, a in optlist:
+    url = ""
+    username = ""
+    password = ""
+    session = False
 
+    for o, a in optlist:
         if o in ("-h", "--help"):
             print(usage)
 
-        if o == "-i":
-            run_id=a
+        if o == "-l":
+            username = a
 
-        if o == "-d":
-            print("Datafile name: ", a)
-            f = open(a, "a")
+        if o == "-p":
+            password = a
 
-        if o in ("-s", "-a"):
-            print(hr)
-            print("Run ID:", run_id)
-            if f:
-                f.write("s3,")
-            s3_bucket()
-            clean_cache()
-            get_the_things()
+        if o == "-u":
+            url = a
 
-        if o in ("-g", "-a"):
-            print(hr)
-            print("Run ID:", run_id)
-            if f:
-                f.write("granule,")
-            granules()
-            clean_cache()
-            get_the_things()
+    if url is None:
+        print("A URL is required")
+        print(usage)
+        sys.exit(2)
 
-        if o in ("-l", "-a"):
-            print(hr)
-            print("Run ID:", run_id)
-            if f:
-                f.write("ngap_localhost,")
-            ngap_localhost()
-            clean_cache()
-            get_the_things()
+    if username != "" and password != "":
+        session = build_session((username, password), url)
 
-        if o in ("-t", "-a"):
-            print(hr)
-            print("Run ID:", run_id)
-            if f:
-                f.write("tea_prod,")
-            tea_prod()
-            clean_cache()
-            get_the_things()
+    xa_ds = open_dataset(url, session)
 
-        if o in ("-u", "-a"):
-            print(hr)
-            print("Run ID:", run_id)
-            if f:
-                f.write("tea_uat,")
-            tea_uat()
-            clean_cache()
-            get_the_things()
-
-        if o in ("-p", "-a"):
-            print(hr)
-            print("Run ID:", run_id)
-            if f:
-                f.write("tea_apigw,")
-            tea_apigw()
-            clean_cache()
-            get_the_things()
-
-        if o in ("-n", "-a"):
-            print(hr)
-            print("Run ID:", run_id)
-            if f:
-                f.write("ngap_west,")
-            ngap_service_west()
-            clean_cache()
-            get_the_things()
-
-        if o in ("-m", "-a"):
-            print(hr)
-            print("Run ID:", run_id)
-            if f:
-                f.write("ngap_uat,")
-            ngap_service_uat()
-            clean_cache()
-            get_the_things()
-
-    if f:
-        f.close()
+    # cloud_ws = cloud_data['wind_speed'].sel(latitude=slice(-53.99, -14), longitude=slice(140, 170))
+    # cloud_ws_mean = cloud_ws.mean(dim=['latitude', 'longitude'])
+    # print(cloud_ws_mean)
 
 
 if __name__ == "__main__":
