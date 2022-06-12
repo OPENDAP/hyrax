@@ -10,7 +10,6 @@ import os
 import glob
 
 
-
 def clean_cache():
     files = glob.glob('/tmp/hyrax_http/*')
 
@@ -161,6 +160,9 @@ def get_the_things():
     try:
         tic = time.perf_counter()
 
+        # open_mfdataset() == open multi-file dataset.
+        # both open_datasets and ...mfdataset use netcdf4 as the default engine and that
+        # should be able to open DAP URLS. jhrg 1/24/22
         if do_auth:
             session = setup_session(username, password, check_url=od_files[0])
             session.headers.update({'Accept-Encoding': 'deflate'})
@@ -199,10 +201,9 @@ def get_the_things():
             f.write(f"{time.perf_counter() - tic:0.4f},")
             f.write("fail\n")
 
+
 def main():
     import getopt
-
-
     hr = "---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  ---  "
     run_id="id_not_set "
     global f        # results file
