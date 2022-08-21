@@ -12,6 +12,9 @@ prefix=$1
 export prefix=${prefix:-$PWD/build}
 test $verbose && echo "prefix: $prefix"
 
+# undo this for a production build
+export GZIP_ENV=--fast
+
 if echo $PATH | grep $prefix > /dev/null
 then
     test $verbose && echo "PATH: already set"
