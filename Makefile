@@ -5,20 +5,20 @@
 
 # sbl   9/30/22
 
-# $@ is the name of the rule's target, 'all' in this case
+# Build and test. This will compile all the code and should thus set
+# up CLion so that all files will be indexed. Continue building even
+# if errors are found in the tests - that will index code that would
+# otherwise be left out. jhrg 9/30/22
 .PHONY: all
 all: configured
-	$(MAKE) $(MFLAGS) -C libdap4 $@
-	$(MAKE) $(MFLAGS) -C bes $@
+	$(MAKE) $(MFLAGS) -C libdap4
+	$(MAKE) $(MFLAGS) -C libdap4 -k check
+	$(MAKE) $(MFLAGS) -C bes
+	$(MAKE) $(MFLAGS) -C bes -k check
 
-# Note that 'make check' for the bes can fail in some ways and for
-# this particular 'build' the rest of the tests should be run. That's
-# because this is intended to be used for CLion so that it can
-# discover all the C++ code in the Hyrax server and having the tests
-# indexed is a big plus. jhrg 9/30/22
-.PHONY: check
-check: configured
-	$(MAKE) $(MFLAGS) -C libdap4 $@
+.PHONY: clean
+clean: configured
+	$(MAKE) $(MFLAGS) -C libdap4 -k $@
 	$(MAKE) $(MFLAGS) -C bes -k $@
 
 .PHONY: hyrax-dependencies
