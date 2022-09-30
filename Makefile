@@ -7,7 +7,7 @@
 
 # $@ is the name of the rule's target, 'all' in this case
 .PHONY: all
-all: prefix-set
+all: configured
 	$(MAKE) $(MFLAGS) -C libdap4 $@
 	$(MAKE) $(MFLAGS) -C bes $@
 
@@ -17,7 +17,7 @@ all: prefix-set
 # discover all the C++ code in the Hyrax server and having the tests
 # indexed is a big plus. jhrg 9/30/22
 .PHONY: check
-check: prefix-set
+check: configured
 	$(MAKE) $(MFLAGS) -C libdap4 $@
 	$(MAKE) $(MFLAGS) -C bes -k $@
 
@@ -25,12 +25,23 @@ check: prefix-set
 hyrax-dependencies: prefix-set
 	$(MAKE) $(MFLAGS) -C $@
 
-# If $prefix is not set in the calling shell, exit. 
+# If $prefix is not set in the calling shell, exit.
+# If the PATH is not set correctly, exit.
 .PHONY: prefix-set
 prefix-set:
-	@if test -z "$$prefix"; then \
-	echo "The env variable 'prefix' must be set. See README"; exit 1; fi
+	@test -n "$$prefix" \
+	 || (echo "The env variable 'prefix' must be set. See README"; exit 1)
+	@printenv PATH | grep -q $$prefix/bin \
+	 || (echo "Did not find $$prefix/bin in PATH"; exit 1)
+	@printenv PATH | grep -q $$prefix/deps/bin \
+	 || (echo "Did not find $$prefix/deps/bin in PATH"; exit 1)
 
+.PHONY: configured
+configured: prefix-set
+	@test -f libdap4/Makefile \
+	 || (echo "Run ./configure --prefix=... in libdap4 (Makefile missing)"; exit 1)
+	@test -f bes/Makefile \
+	 || (echo "Run ./configure --prefix=... in bes (Makefile missing)"; exit 1)
 
 #	current_dir="$(shell pwd)"
 #	current_dir+="/build"
