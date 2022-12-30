@@ -25,6 +25,12 @@ clean: configured
 hyrax-dependencies: prefix-set
 	$(MAKE) $(MFLAGS) -C $@
 
+clion-setup:
+	export prefix="$(shell pwd)/build"; echo $$prefix
+	export PATH="$$prefix/bin:$$prefix/deps/bin:$$PATH"; echo $$PATH
+	$(MAKE) $(MFLAGS) all
+	$(MAKE) $(MFLAGS) check
+
 # If $prefix is not set in the calling shell, exit.
 # If the PATH is not set correctly, exit.
 .PHONY: prefix-set
