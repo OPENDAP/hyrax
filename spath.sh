@@ -12,6 +12,9 @@ prefix=$1
 export prefix=${prefix:-$PWD/build}
 test $verbose && echo "prefix: $prefix"
 
+# undo this for a production build
+export GZIP_ENV=--fast
+
 if echo $PATH | grep $prefix > /dev/null
 then
     test $verbose && echo "PATH: already set"
@@ -38,8 +41,10 @@ fi
 
 if test -f /etc/redhat-release && grep -q '8\.' /etc/redhat-release
 then
-
     echo "Found RHEL 8 or equivalent OS"
+
+    test -d /usr/include/tirpc || echo "WARNING: tirpc header dir not at /usr/include/tirpc"
+    
     if ! echo $CPPFLAGS | grep -q /usr/include/tirpc
     then
         export CPPFLAGS="$CPPFLAGS -I/usr/include/tirpc"
@@ -55,7 +60,6 @@ then
     else
         test $verbose && echo "LDFLAGS: already set"
     fi
-
 fi
 
 export TESTSUITEFLAGS=--jobs=9
