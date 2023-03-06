@@ -1,4 +1,0 @@
-Dataset {
-    Int16 sst_dtime[time = 2][latitude = 720][longitude = 1440];
-} f17_ssmis_20190101v7.nc;
-Data:
