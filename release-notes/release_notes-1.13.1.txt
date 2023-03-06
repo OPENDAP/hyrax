@@ -1,0 +1,57 @@
+Changes to the BES:
+
+- Added an in-memory cache that handlers can use to cache DDS, DMR,
+  ..., objects. The handlers have to be modified to use this, but the
+  performance benefits are potentially huge. See bes/dap/ObjMemCache
+  and the netcdf_handler for the code and an example of its use.
+
+- Server functions can now return multiple variables and have then
+appear as discrete things without being 'wrapped' in a parent
+Structure variable. They do this by using a structure name that ends
+with '_unwrap'. This means that server functions can return values in
+a way that is usable by clients built using the netcdf-library.
+
+- Added code to 'bes/functions' so that the module built there will
+respond to the Version and Help commands (I'm not sure the later is
+ever used by the BES, but it's not much more work). This could be 
+propagated to other modules that previously lacked a RequestHandler
+instance.
+
+- Patch for gcc-6 from Orion Poplawski.
+
+Three handlers we ship as part of Hyrax have significant changes:
+
+- The netCDF file response now includes history information and has a 
+'smart' suffix option (on by default; this part is actually in the
+front end
+of Hyrax).
+
+- In the HDF4 code, improve the calculation of XDim and YDim for the
+sinusoidal projection
+and a bug fix for the case when the _FillValue is NaN. 
+
+- Add support for HDF5 scalar datasets and unlimited dimensions to
+the CF option.
+
+The front end has some significant changes too:
+
+- Added code to amend the CF "history" attribute so that
+  fileout_netcdf responses contain the amended value that shows that
+  Hyrax produced it along with the constraint and id information of
+  the dataset.
+
+- Added new rules for the Content-Disposition header download file
+  names. Now the old behavior (add the netcdf file suffix to very
+  file's basename) can be replaced so that the only the correct suffix
+  appears in the filename.
+
+- Added memory cache for BES Catalog responses. This allows the OLFS
+  to stop asking the same things over and over again. The size and
+  refresh interval are specified by the "<CatalogCache> element in the
+  olfs.xml file. If the element is missing then the memory cache will
+  be disabled.
+
+- Increased the number of simultaneous requests from 10 to 200, which
+  is the default limit for Tomcat.
+
+- Bug fixes: Large file issues in w10n. Fixed build for WCS-2.0

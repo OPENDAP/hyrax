@@ -1,0 +1,105 @@
+
+Release notes for Hyrax 1.14.0
+
+Logging Improvements
+
+- HYRAX-548: introduce copytruncate directive in besd.logrotate, 
+  remove brute-force stop/start
+
+- Log only one line per get command. This can be switched back to 
+  the 'three-lines-per-get' mode. using compile-time switches. There
+  is also a way to trace which calls to the LOG() and VERBOSE() macros
+  are responsible for which lines in the log. And there is an ERROR()
+  macro to call out that an error is being logged. See the ChangeLog for
+  more information.
+
+- As per the above, now, when logging is not verbose, there is only about
+  one line per request (more for errors). Turning on verbose mode go back
+  to the old way of logging where each (internal) command run by the BES
+  is explicitly logged.
+
+- Switched to ISO8601 date-time; UTC is the default.
+  Can use local time in the logs using BES.LogTimeLocal 
+  in bes.conf.  The old date format is still in the code and 
+  can be used by #undef the compile-time switch ISO8601_TIME_IN_LOGS.
+
+Handler fixes
+
+- HDF4 and 5 Handler fixes - summarized in those projects' NEWS file
+
+Bug Fixes
+
+- Refactored the software used to serve GeoTiff files (gdal_handler)
+  so it no longer keeps the GDALDataset handle open. This code was
+  keeping the GDALDataset handle open across calls to the RequestHandler
+  when returning data responses and this breaks the NCML handler.
+
+- Fixed the integration tests in bes/cmdln.  
+
+Specific tickets fixed
+
+HYRAX-248   	Fixed the GeoTiff and JPEG2000 responses; in some
+		        cases the raster output was upside down.
+HYRAX-263	Geotiff output appears to have the latitude axis inverted.
+HYRAX-281	The scale_array() server function now works with 3D arrays.  
+HYRAX-283	fileout geotiff doesn't work for NCEP dataset
+HYRAX-294	Make this function (scale_grid) work correctly when
+		     	subsetting an array drops it down to 2D
+HYRAX-309	Test the geo functions with real data
+HYRAX-362	Make the GeoTiff (GDAL) handler work with NCML aggregations
+HYRAX-417	Determine axis order for scale_grid() and scale_array() functions.
+HYRAX-432	WCS-2.0 war file/ deployment is broken
+HYRAX-458	Use of mkstemp/mkstemps in libdap and bes is bogus
+HYRAX-465	The bes (travis) build is broken
+HYRAX-491	Missing single source of truth for supported Format
+HYRAX-507	Fix double quote problems with WCS constraint expression eval
+HYRAX-529	Hyrax fails to start using "service besd start"
+HYRAX-547	FreeForm handler fmt file for ASCII data with two header lines
+HYRAX-548	logrotate.d in the release 1.13.4 RPM restarts bes and tomcat every day
+
+Developer fixes
+
+Interface Refactoring
+
+- BESInterface/XMLInterface improved, easier to grok. This affects only
+people who write modules for the BES. It does not affect the behavior
+of the BES in any way.
+
+- Streamlined the BESInterface and BESXMLInterface classes and the
+DataHandlerInterface object manipulation. Removed unused fields,
+renamed confusing fields, removed unused formal parameters. Removed
+useless typedefs from BESInterface. Removed init and end lists from
+BESInterface. (as they are not used). Simplified class field name
+changes Improved formatting for BESInterface and BESXMLCommand.
+
+- Added the 'hello_world' module into the BES's 'developer' build so
+that people using our developer documentation can reference a handler
+that works with the current version of the BES.
+
+- Added the DMR++ handler (see modules/dmrpp_module) the regular
+source distribution. This code is not built as part of the regular
+build, but it is part of the 'developer' build.
+
+- There were several functions/methods that made temporary files
+(and used mkstemps, et c. to do so). These were refactored into
+just one function.
+
+- Unit tests for the code were made more usable (hyrax-391)
+
+- Tests for the 'file locking cache' sub-system were added.
+
+- 'make distcheck' now works without the cumbersome env var for configure
+on Centos 7 and ubuntu 14. Centos 6 is still in the dark ages.
+
+ - Removed unneeded classes in the BES framework (hyrax-378).
+
+* libdap4 updates included in this release
+
+- Portability issues: Updated gnulib and mkstemps fixed as per user
+reports. Removed a test for block_size in HTTPCacheTest that failed on
+Fedora ppc64le system with XFS system
+
+- Branches/tickets merged: HYRAX-390 (CppUnit test improvements)
+
+All the autotest dirs are now named 'tests'
+

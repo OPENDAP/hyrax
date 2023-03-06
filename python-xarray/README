@@ -1,0 +1,55 @@
+
+Set up a conda environment that includes:
+netCDF4 pip numpy matplotlib cartopy basemap requests xarray dask ipykernel
+
+After installing Anaconda's free version, use
+
+    conda create --name opendap pip numpy matplotlib cartopy basemap requests xarray dask ipykernel
+
+That makes an 'opendap' environment and loads the packages pip, ..., ipykernel into
+the environment. Now switch to the enviroment
+
+    conda activate opendap
+
+Use pip to install pydap
+
+    pip install pydap
+
+NB: You might not need to use pip for pydap and might not need ipykernel
+
+## Tweaking the conda install to coexist with the OPeNDAP/Hyrax C++ build
+
+Add this to the bottom of ~/.bashrc:
+
+function conda_on() {
+    source ~/anaconda3/etc/profile.d/conda.sh
+    conda activate base
+}
+
+Then in ~/.bash_profile:
+
+# I removed the following because the 'conda' system clashes with
+# our dependencies (well, the icu library it uses does). jhrg 4/24/2019
+
+# added by Anaconda3 2019.03 installer
+# >>> conda init >>>
+# !! Contents within this block are managed by 'conda init' !!
+# __conda_setup="$(CONDA_REPORT_ERRORS=false '/Users/jimg/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     \eval "$__conda_setup"
+# else
+#     if [ -f "/Users/jimg/anaconda3/etc/profile.d/conda.sh" ]; then
+#         . "/Users/jimg/anaconda3/etc/profile.d/conda.sh"
+#         CONDA_CHANGEPS1=false conda activate base
+#     else
+#         \export PATH="/Users/jimg/anaconda3/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
+# <<< conda init <<<
+
+With the above left in place, every shell will have the default conda environment
+(base) and as I say above, as of 4/24/2019, that broke the ICU library on OSX.
+By removing the above code and having the function 'conda-on' shown previously,
+the normal shell is unaltered. Once you run 'conda-on' then that shell is a conda
+shell and should not be used for Hyrax builds.
