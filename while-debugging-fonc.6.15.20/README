@@ -1,8 +1,0 @@
-I got these errors and one success using the following URLs with the whole server:
-
-
-Errors (used URL twice, failed both times): http://localhost:8080/opendap/data/nsidc/ATL08_20181016124656_02730110_002_01.h5?dap4.ce=gt1r_land_segments_ph_ndx_beg[0:1:217];gt2r_land_segments_ph_ndx_beg[0:1:77];gt1l_land_segments_ph_ndx_beg[0:1:133];gt3r_land_segments_ph_ndx_beg[0:1:24]
-
-Success (Used URL once, got valid nc4): http://localhost:8080/opendap/data/nsidc/ATL08_20181016124656_02730110_002_01.h5?dap4.ce=gt1r_land_segments_ph_ndx_beg[0:1:217];gt2r_land_segments_ph_ndx_beg[0:1:77];gt1l_land_segments_ph_ndx_beg[0:1:133];gt3r_land_segments_ph_ndx_beg[0:1:24];gt1r_signal_photons_classed_pc_flag[0:1:69380];gt1r_signal_photons_classed_pc_indx[0:1:69380]
-
-I ran other tests, but those were after I saved these log files
