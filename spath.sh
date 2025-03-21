@@ -70,7 +70,7 @@ export TESTSUITEFLAGS=--jobs=9
 #
 # Added it back. The new tomcat 7 scripts don't require that 
 # CATALINA_HOME is set, so this is really for TC 6 compat. jhrg 12/30/14
-tc=`ls -d -1 $prefix/apache-tomcat-* 2> /dev/null | grep -v '.*\.tar\.gz'`
+tc=`ls -d -1 $prefix/apache-tomcat-* 2> /dev/null | grep -v '.*\.tar\.gz' >2 /dev/null`
 if test -n "$tc"
 then
     export TOMCAT_DIR=$tc

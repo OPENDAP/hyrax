@@ -64,7 +64,7 @@ function do_command {
     fi
 }
 
-repo_root=https://github.com/opendap
+repo_root=https://github.com/OPENDAP
 
 # On CentOS the fileout_netcdf tests fail when the RPM netcdf and
 # hyrax-dependencies netcdf libraries are mixed. jhrg 1/2/15
@@ -100,7 +100,7 @@ fi
 
 if test ! -d bes
 then
-    do_command "git clone $repo_root/bes.git $verbose"
+    do_command "git clone --recurse-submodules -j4 $repo_root/bes.git $verbose"
     do_command "git checkout $bes_module_branch"
 else
     (
