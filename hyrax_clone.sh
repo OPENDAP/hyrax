@@ -102,13 +102,7 @@ if test ! -d bes
 then
     do_command "git clone --recurse-submodules -j4 $repo_root/bes.git $verbose"
     do_command "git checkout $bes_module_branch"
-else
-    (
-    cd bes
-    verbose "In bes..."
-    do_command "git checkout $bes_module_branch"
     do_command "git pull $verbose"
-    )
 fi
 
 if test ! -d olfs
@@ -121,26 +115,3 @@ else
     do_command "git pull $verbose"
     )
 fi
-
-# Do the submodule init/update in a sub-shell
-(
-if cd bes 2> /dev/null
-then
-    verbose "In bes updatig modules..."
-
-    # Kludge: Use hdf4_handler as a sentinel; if it's code is present
-    # assume this all has been run and just run 'pull' for all of the
-    # submodules.
-    if test ! -f modules/hdf4_handler/Makefile.am
-    then
-	# Get submodules (HDF4, HDF5, maybe something else...)
-	do_command "git submodule update --init"
-	do_command "git submodule foreach" 'git checkout' $bes_module_branch
-    else
-	do_command "git submodule foreach" 'git checkout' $bes_module_branch
-	do_command "git submodule foreach" 'git pull' $verbose
-    fi
-else
-    verbose "No bes repo; cannot update submodules"
-fi
-) # pop out of the 'cd bes' sub-shell

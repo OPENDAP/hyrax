@@ -16,6 +16,9 @@ function help {
     echo "-p prefix: use <prefix> as the build/install prefix"
 }
 
+# Hack jhrg 1/8/24
+jobs=-j20
+
 args=`getopt hvn2cdDNp: $*`
 if test $? != 0
 then
@@ -139,7 +142,7 @@ function do_make_build {
 	    do_command "make clean"
 	fi
 
-	do_command "make -j9"
+	do_command "make $jobs"
 	verbose "%%% make status: $?"
 
 	# some of the bes/handler tests fail w/parallel builds
@@ -151,7 +154,7 @@ function do_make_build {
 
 	if test -n "$distcheck"
 	then
-	    do_command "make distcheck -j9"
+	    do_command "make distcheck $jobs"
 	    verbose "%%% distcheck status: $?"
 	fi
     fi
@@ -202,9 +205,9 @@ then
     # we need for the BES rpm for NASA (with static HDF4/hdfeos2, ...).
     # NB: The -N option of this script will build the static version of
     # these dependencies; without -N you get all the deps as dynamic libraries.
-    do_command "make -j9 $for_nasa_rpm"
+    do_command "make $jobs $for_nasa_rpm"
 
-    # The above inpacks, builds and installs each dependency. It uses lots
+    # The above unpacks, builds and installs each dependency. It uses lots
     # of space. This removes the source build directories, saving almost
     # 2GB of disk. jhrg 10/24/19
     do_command "make really-clean"
@@ -241,7 +244,7 @@ do_make_build $libdap $prefix_arg --enable-developer 2>&1 | tee $libdap.log
 
 do_make_build bes $prefix_arg $deps --enable-developer 2>&1 | tee bes.log
 
-tomcat_webapps=$prefix/apache-tomcat-7.*.*/webapps
+tomcat_webapps=$prefix/apache-tomcat-9.*.*/webapps
 
 do_ant_build olfs 2>&1 | tee olfs.log
 
