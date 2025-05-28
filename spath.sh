@@ -33,7 +33,12 @@ fi
 
 if ! echo $LD_LIBRARY_PATH | grep -q deps/lib
 then
-    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$prefix/deps/lib"
+    if test -n "$LD_LIBRARY_PATH"
+    then
+        export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$prefix/deps/lib"
+    else
+        export LD_LIBRARY_PATH="$prefix/deps/lib"
+    fi
     test $verbose && echo "LD_LIBRARY_PATH: $LD_LIBRARY_PATH"
 else
     test $verbose && echo "LD_LIBRARY_PATH: already set"
@@ -76,3 +81,5 @@ then
     export TOMCAT_DIR=$tc
     export CATALINA_HOME=$TOMCAT_DIR
 fi
+echo "     TOMCAT_DIR: $TOMCAT_DIR" >&2
+echo "  CATALINA_HOME: $CATALINA_HOME" >&2
