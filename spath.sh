@@ -81,5 +81,5 @@ then
     export TOMCAT_DIR=$tc
     export CATALINA_HOME=$TOMCAT_DIR
 fi
-echo "     TOMCAT_DIR: $TOMCAT_DIR" >&2
-echo "  CATALINA_HOME: $CATALINA_HOME" >&2
+test $verbose && echo "     TOMCAT_DIR: $TOMCAT_DIR" >&2
+test $verbose && echo "  CATALINA_HOME: $CATALINA_HOME" >&2
