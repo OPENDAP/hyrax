@@ -10,18 +10,17 @@ verbose=1
 # Can't use ${1:-...}; positional params don't work in the ${:-} syntax
 prefix=$1
 export prefix=${prefix:-$PWD/build}
-test $verbose && echo "prefix: $prefix"
+test $verbose && echo "         prefix: $prefix"
 
 # undo this for a production build
 export GZIP_ENV=--fast
 
-if echo $PATH | grep $prefix > /dev/null
+if ! echo $PATH | grep $prefix > /dev/null
 then
-    test $verbose && echo "PATH: already set"
-else
     export PATH=$prefix/bin:$prefix/deps/bin:$PATH
-    test $verbose && echo "PATH: $PATH"
+    test $verbose && echo "# Updated PATH" >&2
 fi
+test $verbose && echo "           PATH: $PATH" >&2
 
 # set the site config file, saving some typing and maybe some grief
 # export CONFIG_SITE=$(pwd)/config.site
@@ -39,10 +38,9 @@ then
     else
         export LD_LIBRARY_PATH="$prefix/deps/lib"
     fi
-    test $verbose && echo "LD_LIBRARY_PATH: $LD_LIBRARY_PATH"
-else
-    test $verbose && echo "LD_LIBRARY_PATH: already set"
+    test $verbose && echo "# Updated LD_LIBRARY_PATH" >&2
 fi
+test $verbose && echo "LD_LIBRARY_PATH: $LD_LIBRARY_PATH" >&2
 
 if test -f /etc/redhat-release && grep -q '8\.' /etc/redhat-release
 then
@@ -53,19 +51,17 @@ then
     if ! echo $CPPFLAGS | grep -q /usr/include/tirpc
     then
         export CPPFLAGS="$CPPFLAGS -I/usr/include/tirpc"
-        test $verbose && echo "CPPFLAGS: $CPPFLAGS"
-    else
-        test $verbose && echo "CPPFLAGS: already set"
+        test $verbose && echo "# Updated CPPFLAGS" >&2
     fi
 
     if ! echo $LDFLAGS | grep -q tirpc
     then
         export LDFLAGS="$LDFLAGS -ltirpc"
-        test $verbose && echo "LDFLAGS: $LDFLAGS"
-    else
-        test $verbose && echo "LDFLAGS: already set"
+        test $verbose && echo "# Updated LDFLAGS" >&2
     fi
 fi
+test $verbose && echo "       CPPFLAGS: $CPPFLAGS" >&2
+test $verbose && echo "        LDFLAGS: $LDFLAGS" >&2
 
 export TESTSUITEFLAGS=--jobs=9
 
