@@ -6,7 +6,9 @@
     "name": "Ubuntu C++",
 
     // Focal is 20.04 LTS
-    "dockerfile": "Dockerfile",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
 
     // Features to add to the dev container. More info: https://containers.dev/features.
     // "features": {},
