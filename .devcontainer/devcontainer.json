@@ -3,7 +3,7 @@
 // by a local Docker file. jhrg 5/19/26
 
 {
-    "name": "Ubuntu C++",
+    "name": "Ubuntu C++ Arm64 Dev Container",
 
     // Focal is 20.04 LTS
     "build": {

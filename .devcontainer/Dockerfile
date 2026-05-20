@@ -4,10 +4,10 @@
 
 # Use the latest Ubuntu LTS as the base
 
-# This is the most recent imaage: FROM ubuntu:24.04
+# This is the most recent image: FROM ubuntu:24.04
 # Focal (what we use on Travis as of 5/13/26) is 20.04
 
-FROM ubuntu:20.04
+FROM --platform=linux/arm64 ubuntu:20.04
 
 # Avoid interactive prompts during installation
 ENV DEBIAN_FRONTEND=noninteractive
