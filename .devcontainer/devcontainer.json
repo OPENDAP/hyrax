@@ -3,12 +3,16 @@
 // by a local Docker file. jhrg 5/19/26
 
 {
-    "name": "Ubuntu C++ Arm64 Dev Container",
+    "name": "Ubuntu C++ Arm64",
 
     // Focal is 20.04 LTS
     "build": {
         "dockerfile": "Dockerfile"
     },
+
+    "runArgs": [
+        "--cpus=8"
+    ],
 
     // Features to add to the dev container. More info: https://containers.dev/features.
     // "features": {},

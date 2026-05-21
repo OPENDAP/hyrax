@@ -2,6 +2,9 @@
 *~
 *.log
 .metadata/
+.agents
+**/AGENTS.md
+.vscode/*.json
 
 # never check in login.txt
 login.txt
