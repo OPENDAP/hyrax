@@ -1,0 +1,127 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug NgapOwnedContainer::access DMR",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/standalone/.libs/besstandalone",
+            "args": [
+                "-c",
+                "bes.conf",
+                "-i",
+                "contiguous/t_int_scalar.h5.dmr"
+            ],
+            "cwd": "${workspaceFolder}/modules/dmrpp_module/tests",
+            "environment": [
+                {
+                    "name": "DYLD_LIBRARY_PATH",
+                    "value": "${workspaceFolder}/.libs:${env:DYLD_LIBRARY_PATH}"
+                },
+                {
+                    "name": "PATH",
+                    "value": "${env:HYRAX_PREFIX}/bin:${env:HYRAX_PREFIX}/deps/bin:${env:PATH}"
+                }
+            ],
+            "MIMode": "lldb",
+            "setupCommands": [
+                {
+                    "description": "Allow stepping into all frames",
+                    "text": "settings set target.process.thread.step-avoid-regexp ^$",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Debug NgapOwnedContainer::access DAP",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/standalone/.libs/besstandalone",
+            "args": [
+                "-c",
+                "bes.conf",
+                "-i",
+                "contiguous/t_int_scalar.h5.dap"
+            ],
+            "cwd": "${workspaceFolder}/modules/dmrpp_module/tests",
+            "environment": [
+                {
+                    "name": "DYLD_LIBRARY_PATH",
+                    "value": "${workspaceFolder}/.libs:${env:DYLD_LIBRARY_PATH}"
+                },
+                {
+                    "name": "PATH",
+                    "value": "${env:HYRAX_PREFIX}/bin:${env:HYRAX_PREFIX}/deps/bin:${env:PATH}"
+                }
+            ],
+            "MIMode": "lldb",
+            "setupCommands": [
+                {
+                    "description": "Allow stepping into all frames",
+                    "text": "settings set target.process.thread.step-avoid-regexp ^$",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Debug NgapOwnedContainer::alt_access DAP",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/standalone/.libs/besstandalone",
+            "args": [
+                "-c",
+                "bes-return-as-dmrpp.conf",
+                "-i",
+                "return_as_dmrpp/dmrpp-return-as-test.bescmd"
+            ],
+            "cwd": "${workspaceFolder}/modules/dmrpp_module/tests",
+            "environment": [
+                {
+                    "name": "DYLD_LIBRARY_PATH",
+                    "value": "${workspaceFolder}/.libs:${env:DYLD_LIBRARY_PATH}"
+                },
+                {
+                    "name": "PATH",
+                    "value": "${env:HYRAX_PREFIX}/bin:${env:HYRAX_PREFIX}/deps/bin:${env:PATH}"
+                }
+            ],
+            "MIMode": "lldb",
+            "setupCommands": [
+                {
+                    "description": "Allow stepping into all frames",
+                    "text": "settings set target.process.thread.step-avoid-regexp ^$",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Debug NgapOwnedContainer::build_dmrpp_url_to_owned_bucket DAP",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/modules/dmrpp_module/ngap_container/unit-tests/.libs/NgapOwnedContainerTest",
+            "args": [
+                "-d",
+                "test_access_s3"
+            ],
+            "cwd": "${workspaceFolder}/modules/dmrpp_module/ngap_container/unit-tests",
+            "environment": [
+                {
+                    "name": "DYLD_LIBRARY_PATH",
+                    "value": "${workspaceFolder}/.libs:${env:DYLD_LIBRARY_PATH}"
+                },
+                {
+                    "name": "PATH",
+                    "value": "${env:HYRAX_PREFIX}/bin:${env:HYRAX_PREFIX}/deps/bin:${env:PATH}"
+                }
+            ],
+            "MIMode": "lldb",
+            "setupCommands": [
+                {
+                    "description": "Allow stepping into all frames",
+                    "text": "settings set target.process.thread.step-avoid-regexp ^$",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}

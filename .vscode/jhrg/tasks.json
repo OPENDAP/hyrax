@@ -1,0 +1,167 @@
+{
+    "version": "2.0.0",
+    "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+            "prefix": "${config:prefix}",
+            "PATH": "${config:prefix}/bin:${config:prefix}/deps/bin:${env:PATH}",
+            "TESTSUITEFLAGS": "--jobs"
+        },
+        "shell": {
+            "executable": "/bin/zsh",
+            "args": [
+                "-c"
+            ]
+        }
+    },
+    "tasks": [
+        {
+            "label": "autotools: printenv",
+            "type": "shell",
+            "command": "printenv",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "autotools: configure",
+            "type": "shell",
+            "command": "echo \"prefix: $prefix\" && autoreconf -fvi && ./configure --prefix=$prefix --with-dependencies=$prefix/deps --enable-developer",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "autotools: build",
+            "type": "shell",
+            "command": "make -j${config:nproc}",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "autotools: check",
+            "type": "shell",
+            "command": "make -j${config:nproc} check",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "autotools: install",
+            "type": "shell",
+            "command": "make install",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "autotools: clean",
+            "type": "shell",
+            "command": "make clean",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "autotools: compile_commands",
+            "type": "shell",
+            "command": "make clean && bear -- make -j${config:nproc} -k && bear --append -- make -j${config:nproc} -k check",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "autotools: framework-check",
+            "type": "shell",
+            "command": "make -j${config:nproc} framework-check",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "autotools: modules-check",
+            "type": "shell",
+            "options": {
+            "cwd": "${workspaceFolder}/modules"
+            },
+            "command": "make -j${config:nproc} -k check",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "options": {
+                "cwd": "${workspaceFolder}/modules/dmrpp_module"
+            },
+            "label": "autotools: build dmrpp module",
+            "type": "shell",
+            "command": "make -j${config:nproc}",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "options": {
+                "cwd": "${workspaceFolder}/modules/dmrpp_module/ngap_container/unit-tests",
+            },
+            "label": "autotools: build NgapOwnedContainerTest",
+            "type": "shell",
+            "command": "make -j NgapOwnedContainerTest && ./NgapOwnedContainerTest -d",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },        
+        {
+            "options": {
+                "cwd": "${workspaceFolder}/modules/ncml_module"
+            },
+            "label": "autotools: build NCML",
+            "type": "shell",
+            "command": "make -j${config:nproc}",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
